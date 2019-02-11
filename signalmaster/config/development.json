@@ -1,0 +1,28 @@
+{
+  "isDev": true,
+  "server": {
+    "port": 8888,
+    "/* secure */": "/* whether this connects via https */",
+    "secure": false,
+    "key": "/usr/local/nginx/sbin/cert/1556429_wzroom.cn.key",
+    "cert": "/usr/local/nginx/sbin/cert/1556429_wzroom.cn.pem",
+    "password": null
+  },
+  "rooms": {
+    "/* maxClients */": "/* maximum number of clients per room. 0 = no limit */",
+    "maxClients": 0
+  },
+  "stunservers": [
+    {
+      "urls": "stun:wzroom.cn:3478"
+    }
+  ],
+  "turnservers": [
+    {
+      "urls": ["turn:wzroom.cn:3478"],
+      "username": "wz",
+      "credential": "123456",
+      "expiry": 86400
+    }
+  ]
+}
