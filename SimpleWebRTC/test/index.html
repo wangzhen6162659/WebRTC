@@ -1,267 +1,324 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <title>远程交流系统</title>
-    </head>
-    <body style="background:#171c23;">
-        <h1 id="title" class="title">创建一个房间</h1>
-        <style>
-	     .title {
-		text-align: center;
-	        color: white;
-		}
-            .videoContainer {
-                position: relative;
-                width: 25%;
-                height: 150px;
-            }
-              #videos .videoContainer:nth-child(odd){
-    		margin-bottom: 10%;
-	         	float: left;
-		margin-right: 30%;
-                        }
-                        #videos .videoContainer:nth-child(even){
-	         	float: right;
-                        }
-                        #remotes:after{
-		content: '';
-		display: block;
-		clear: both;
-                        }
-            .videoContainer video{
-                position: absolute;
-                width: 100%;
-                height: 100%;
-            }
-	    .videoContainer label{
-                  position: absolute;
-                  width: 100%;
-		bottom: 0;
-	    	text-align: center;
-             }
-            .volume_bar {
-                position: absolute;
-                width: 5px;
-                height: 0px;
-                right: 0px;
-                bottom: 0px;
-                background-color: #12acef;
-            }
-	     .user_name{
-		position:absolute;
-		right:0px;
-		bottom:0px;
-		border:1px;
-		color:white
-	         }
-              .left{
-                  float: left;
-                  width: 40%;
-                  }
-              .right{
-                  float: left;
-                  width: 40%;
-                  }
-              .video{
-                  margin: 10px 0;
-                 }
-	     .mid_video_style{
-		width: 50%; 
-                                height: 50%; 
-                                //background: #000;
-                                //overflow: auto; 
-                                margin: auto; 
-                                position: absolute; 
-                                top: 0; left: 0; bottom: 0; right: 0;
-		} 
-	#remotes,.remotes{
-		//display: flex;
-		//justify-content: flex-start;
-	}
-        </style>
-	<div>
-        <p id="subTitle" class="title"></p>
-        <form id="createRoom" class="title ">
-            <input id="sessionInput"/>
-            <button type="submit">Create it!</button>
-        </form>
-	<div id='videos'>
-        <div class="videoContainer">
+<head>
+    <title>远程交流系统</title>
+</head>
+<body style="background:#171c23;">
+<h1 id="title" class="title">创建一个房间</h1>
+<style>
+    .title {
+        text-align: center;
+        color: white;
+    }
+
+    .videoContainer {
+        position: relative;
+        width: 15%;
+        height: 150px;
+    }
+
+    #videos .videoContainer:nth-child(odd) {
+        margin-bottom: 10%;
+        float: left;
+        margin-right: 40%;
+    }
+
+    #videos .videoContainer:nth-child(even) {
+        float: right;
+    }
+
+    #remotes:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .videoContainer video {
+        background-color: black;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .videoContainer label {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        text-align: center;
+    }
+
+    .volume_bar {
+        position: absolute;
+        width: 5px;
+        height: 0px;
+        right: 0px;
+        bottom: 0px;
+        background-color: #12acef;
+    }
+
+    .user_name {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        border: 1px;
+        color: white
+    }
+
+    .left {
+        float: left;
+        width: 40%;
+    }
+
+    .right {
+        float: left;
+        width: 40%;
+    }
+
+    .video {
+        margin: 10px 0;
+    }
+
+    .small_video_menu {
+        position: absolute;
+        right: 5px;
+        top: 15px;
+    }
+
+    .mid_video_style {
+        width: 50%;
+        height: 50%;
+    / / background: #000;
+    / / overflow: auto;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    .mid_video_style .videoContainer {
+        width: 84%;
+        margin: auto;
+    }
+
+    #remotes, .remotes {
+    / / display: flex;
+    / / justify-content: flex-start;
+    }
+</style>
+<div>
+    <p id="subTitle" class="title"></p>
+    <form id="createRoom" class="title ">
+        <input id="sessionInput"/>
+        <button type="submit">Create it!</button>
+    </form>
+    <div id='videos'>
+        <div id="mineVideo" class="videoContainer">
             <video id="localVideo" style="height: 150px;" oncontextmenu="return false;"></video>
             <div id="localVolume" class="volume_bar"></div>
-	     <label id="name" class="user_name"/>
+            <label id="name" class="user_name"/>
         </div>
-	</div>
-        <div id="remotes"></div>
-	<div class="mid_video_style" id="mid_video">
-	</div>
-	</div>
-        <script src="../out/jquery.js"></script>
-        <script src="../out/simplewebrtc-with-adapter.bundle.js"></script>
-        <script>
+    </div>
+    <div class="mid_video_style" id="mid_video">
+    </div>
+</div>
+<script src="../out/config.js"></script>
+<script src="../out/jquery.js"></script>
+<script src="../out/simplewebrtc-with-adapter.bundle.js"></script>
+<script>
+    var tag1 = "静音";
+    var tag2 = "取消静音";
 
-            // grab the room from the URL
-            var room = location.search && location.search.split('?')[1];
+    // grab the room from the URL
+    var room = location.search && location.search.split('?')[1];
 
-            // create our webrtc connection
-            var webrtc = new SimpleWebRTC({
-                // the id/element dom element that will hold "our" video
-                localVideoEl: 'localVideo',
-                // the id/element dom element that will hold remote videos
-                remoteVideosEl: '',
-                // immediately ask for camera access
-                autoRequestMedia: true,
-                debug: false,
-                detectSpeakingEvents: true,
-		url:'https://wzroom.cn:443'
-            });
+    // create our webrtc connection
+    var webrtc = new SimpleWebRTC({
+        // the id/element dom element that will hold "our" video
+        localVideoEl: 'localVideo',
+        // the id/element dom element that will hold remote videos
+        remoteVideosEl: '',
+        // immediately ask for camera access
+        autoRequestMedia: true,
+        debug: false,
+        detectSpeakingEvents: true,
+        url: getPort()
+    });
 
-            // when it's ready, join if we got a room from the URL
-            webrtc.on('readyToCall', function () {
-                // you can name it anything
-                if (room) {
-		   var conn = webrtc.joinRoom(room);
-		   console.log(conn.connection)
-    	           $('#name').text(conn.connection.connection.id);
-                   }
-            });
+    // when it's ready, join if we got a room from the URL
+    webrtc.on('readyToCall', function () {
+        // you can name it anything
+        if (room) {
+            var conn = webrtc.joinRoom(room);
+            console.log(conn.connection)
+            $('#name').text(conn.connection.connection.id);
+            $("#mineVideo").append(setVolMute($("#localVideo")[0]));
+        }
+    });
 
-            function showVolume(el, volume) {
-                if (!el) return;
-                if (volume < -45) { // vary between -45 and -20
-                    el.style.height = '0px';
-                } else if (volume > -20) {
-                    el.style.height = '100%';
+    function showVolume(el, volume) {
+        if (!el) return;
+        if (volume < -45) { // vary between -45 and -20
+            el.style.height = '0px';
+        } else if (volume > -20) {
+            el.style.height = '100%';
+        } else {
+            el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
+        }
+    }
+
+    webrtc.on('channelMessage', function (peer, label, data) {
+        if (data.type == 'volume') {
+            showVolume(document.getElementById('volume_' + peer.id), data.volume);
+        }
+    });
+    webrtc.on('videoAdded', function (video, peer) {
+        console.log('video added', peer);
+        var remotes = document.getElementById('videos');
+        if (remotes) {
+            var d = document.createElement('div');
+            d.className = 'videoContainer';
+            d.id = 'container_' + webrtc.getDomId(peer);
+            d.appendChild(video);
+            var vol = document.createElement('div');
+            vol.id = 'volume_' + peer.id;
+            vol.className = 'volume_bar';
+            video.onclick = function () {
+                //video.style.width = video.videoWidth + 'px';
+                //video.style.height = video.videoHeight + 'px';
+                $("#mid_video").empty();
+                var midVideo = document.getElementById('mid_video');
+                var md = document.createElement('div');
+                md.className = 'videoContainer';
+                md.id = 'container_' + webrtc.getDomId(peer) + 'copy';
+                var copyNode = video.cloneNode();
+                copyNode.srcObject = video.srcObject;
+                // copyNode.style.width = '400%';
+                copyNode.style.height = '400%';
+                md.appendChild(copyNode);
+                var vol = document.createElement('div');
+                vol.id = 'volume_' + peer.id;
+                vol.className = 'volume_bar';
+                //附加按钮
+                // md.appendChild(setVolMute(copyNode));
+                //附加音量
+                md.appendChild(vol);
+                midVideo.appendChild(md);
+
+            };
+            //下方唯一id
+            var name = document.createElement('label');
+            name.className = 'user_name';
+            name.innerHTML = peer.id;
+            d.appendChild(vol);
+            d.appendChild(name);
+            d.appendChild(setVolMute(video));
+            remotes.appendChild(d);
+        }
+    });
+    webrtc.on('videoRemoved', function (video, peer) {
+        console.log('video removed ', peer);
+        var remotes = document.getElementById('videos');
+        var el = document.getElementById('container_' + webrtc.getDomId(peer));
+        if (remotes && el) {
+            remotes.removeChild(el);
+        }
+    });
+    webrtc.on('volumeChange', function (volume, treshold) {
+        showVolume(document.getElementById('localVolume'), volume);
+    });
+
+    // Since we use this twice we put it here
+    function setRoom(name) {
+        $('form').remove();
+        $('h1').text('远程交流系统 - 房间' + name);
+        $('#subTitle').text('分享链接给其他人: ' + location.href);
+        $('body').addClass('active');
+    }
+
+    if (room) {
+        setRoom(room);
+    } else {
+        $('form').submit(function () {
+            var val = $('#sessionInput').val().toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z0-9_\-]/g, '');
+            webrtc.createRoom(val, function (err, name) {
+                console.log(' create room cb', arguments);
+
+                var newUrl = location.pathname + '?' + name;
+                if (!err) {
+                    history.replaceState({foo: 'bar'}, null, newUrl);
+                    setRoom(name);
                 } else {
-                    el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
+                    console.log(err);
                 }
+            });
+            return false;
+        });
+    }
+
+    var button = $('#screenShareButton'),
+        setButton = function (bool) {
+            button.text(bool ? 'share screen' : 'stop sharing');
+        };
+    webrtc.on('localScreenStopped', function () {
+        setButton(true);
+    });
+
+    setButton(true);
+
+    var t = window.setInterval(setLocalMid, 1000);
+
+    function setLocalMid() {
+        var localVideo = $('#localVideo');
+        var midVideo = document.getElementById('mid_video');
+        if (midVideo.children.length == 0 && localVideo[0].srcObject != null) {
+            var copyNode = localVideo[0].cloneNode();
+            copyNode.srcObject = localVideo[0].srcObject;
+            copyNode.style.height = '400%';
+            var div = document.createElement('div');
+            div.className = 'videoContainer';
+            div.appendChild(copyNode)
+            copyNode.muted = true;
+            // div.appendChild(setVolMute(copyNode));
+            midVideo.appendChild(div);
+            window.clearInterval(t);
+            localVideo[0].onclick = function () {
+                $("#mid_video").empty();
+                var copyNode = localVideo[0].cloneNode();
+                copyNode.srcObject = localVideo[0].srcObject;
+                // copyNode.style.width = '400%';
+                copyNode.style.height = '400%';
+                var div = document.createElement('div');
+                div.className = 'videoContainer';
+                div.appendChild(copyNode);
+                //附加按钮
+                // div.appendChild(setVolMute(copyNode));
+                midVideo.appendChild(div);
             }
-            webrtc.on('channelMessage', function (peer, label, data) {
-                if (data.type == 'volume') {
-                    showVolume(document.getElementById('volume_' + peer.id), data.volume);
-                }
-            });
-            webrtc.on('videoAdded', function (video, peer) {
-                console.log('video added', peer);
-                var remotes = document.getElementById('videos');
-                if (remotes) {
-                    var d = document.createElement('div');
-                    d.className = 'videoContainer';
-                    d.id = 'container_' + webrtc.getDomId(peer);
-                    d.appendChild(video);
-                    var vol = document.createElement('div');
-                    vol.id = 'volume_' + peer.id;
-                    vol.className = 'volume_bar';
-                    video.onclick = function () {
-                        //video.style.width = video.videoWidth + 'px';
-                        //video.style.height = video.videoHeight + 'px';
- 			$("#mid_video").empty();
-			var midVideo = document.getElementById('mid_video');
-			var md = document.createElement('div');
-                    		md.className = 'videoContainer';
-                    		md.id = 'container_' + webrtc.getDomId(peer) + 'copy';
-			var copyNode = video.cloneNode();
-			copyNode.srcObject = video.srcObject;
-			copyNode.style.width = '400%';
-			copyNode.style.height = '400%';
-                    		md.appendChild(copyNode);
-                    		var vol = document.createElement('div');
-                    		vol.id = 'volume_' + peer.id;
-                    		vol.className = 'volume_bar';
-                    		md.appendChild(vol);
-                   	 	midVideo.appendChild(md);
+        }
+    }
 
-                    };
-   		    
-            	     var myDate=new Date()
-           	     var name = document.createElement('label');
-		     name.className = 'user_name';
-            	     name.innerHTML = peer.id;
-                    d.appendChild(vol);
-            	    d.appendChild(name);
-                    remotes.appendChild(d);
-                }
-            });
-            webrtc.on('videoRemoved', function (video, peer) {
-                console.log('video removed ', peer);
-                var remotes = document.getElementById('videos');
-                var el = document.getElementById('container_' + webrtc.getDomId(peer));
-                if (remotes && el) {
-                    remotes.removeChild(el);
-                }
-            });
-            webrtc.on('volumeChange', function (volume, treshold) {
-                //console.log('own volume', volume);
-                showVolume(document.getElementById('localVolume'), volume);
-            });
-
-            // Since we use this twice we put it here
-            function setRoom(name) {
-                $('form').remove();
-                $('h1').text('远程交流系统 - 房间' + name);
-                $('#subTitle').text('分享链接给其他人: ' + location.href);
-            	$('body').addClass('active');
-	    }
-
-            if (room) {
-                setRoom(room);
-            } else {
-                $('form').submit(function () {
-                    var val = $('#sessionInput').val().toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z0-9_\-]/g, '');
-                    webrtc.createRoom(val, function (err, name) {
-                        console.log(' create room cb', arguments);
-
-                        var newUrl = location.pathname + '?' + name;
-                        if (!err) {
-                            history.replaceState({foo: 'bar'}, null, newUrl);
-                            setRoom(name);
-                        } else {
-                            console.log(err);
-                        }
-                    });
-                    return false;
-                });
-            }
-
-            var button = $('#screenShareButton'),
-                setButton = function (bool) {
-                    button.text(bool ? 'share screen' : 'stop sharing');
-                };
-            webrtc.on('localScreenStopped', function () {
-                setButton(true);
-            });
-
-            setButton(true);
-
-	    var t = window.setInterval(setLocalMid,1000);
-	
-	    function setLocalMid(){
-		    	var localVideo  = $('#localVideo');
-			var midVideo = document.getElementById('mid_video');
-			if (midVideo.children.length == 0 &&  localVideo[0].srcObject != null){
-			   var copyNode = localVideo[0].cloneNode();
-			   copyNode.srcObject = localVideo[0].srcObject;
-			   copyNode.style.width = '400%';
-			   copyNode.style.height = '400%';
-                    		   var div = document.createElement('div');             		
-			   div.className = 'videoContainer';
-			   div.appendChild(copyNode)       
-			   midVideo.appendChild(div); 	
-			   window.clearInterval(t); 
-			   localVideo[0].onclick = function () {
-			        $("#mid_video").empty();
-			         var copyNode = localVideo[0].cloneNode();
-			   copyNode.srcObject = localVideo[0].srcObject;
-			   copyNode.style.width = '400%';
-			   copyNode.style.height = '400%';
-                    		   var div = document.createElement('div');             		
-			   div.className = 'videoContainer';
-			   div.appendChild(copyNode)       
-			   midVideo.appendChild(div); 
-			   }	
-			}
-			var a = localVideo[0]
-	      }
-        </script>
-    </body>
+    function setVolMute(volEl) {
+        //附加按钮
+        volEl.muted = true;
+        var bt = document.createElement("button");
+        bt.className = 'small_video_menu';
+        setVolMuteTag(bt, volEl)
+        bt.onclick = function () {
+            //绑定点击事件
+            volEl.muted = !volEl.muted;
+            setVolMuteTag(bt, volEl)
+        }
+        return bt;
+    }
+    function setVolMuteTag(btEl, volEl) {
+        if (volEl.muted) {
+            btEl.innerHTML = tag2;
+        } else {
+            btEl.innerHTML = tag1;
+        }
+    }
+</script>
+</body>
 </html>
