@@ -6392,7 +6392,7 @@ module.exports = function(a, b){
 module.exports = debug;
 
 /**
- * Create a debugger with the given `name`.
+ * Create a  with the given `name`.
  *
  * @param {String} name
  * @return {Type}
@@ -8819,7 +8819,7 @@ function selectColor() {
 }
 
 /**
- * Create a debugger with the given `namespace`.
+ * Create a  with the given `namespace`.
  *
  * @param {String} namespace
  * @return {Function}
@@ -11102,7 +11102,6 @@ util.inherits(LocalMedia, WildEmitter);
 LocalMedia.prototype.start = function (mediaConstraints, cb) {
     var self = this;
     var constraints = mediaConstraints || this.config.media;
-
     this.emit('localStreamRequested', constraints);
 	var userMedia = navigator.mediaDevices.getUserMedia(constraints);
     userMedia.then(function (stream) {
@@ -11126,20 +11125,44 @@ LocalMedia.prototype.start = function (mediaConstraints, cb) {
             return cb(null, stream);
         }
     }).catch(function (err) {
-            alert("您没有打开摄像头或浏览器不支持该功能")
             // Fallback for users without a camera
-
+        alert("提示:无法获取您的摄像头")
             if (self.config.audioFallback && err.name === 'DevicesNotFoundError' && constraints.video !== false) {
-                constraints.video = false;
+                constraints.video = true;
                 self.start(constraints, cb);
                 return;
             }
+        // var temp = new MediaStream();
+        // self.localStreams.push(temp);
+        //
+        // temp.getTracks().forEach(function (track) {
+        //     track.addEventListener('ended', function () {
+        //         if (isAllTracksEnded(temp)) {
+        //             self._removeStream(temp);
+        //         }
+        //     });
+        // });
+        constraints.video = false;
+        var userMedia = navigator.mediaDevices.getUserMedia(constraints);
+        userMedia.then(function (stream) {
+            if (constraints.audio && self.config.detectSpeakingEvents) {
+                self._setupAudioMonitor(stream, self.config.harkOptions);
+            }
 
-        self.emit('localStreamRequestFailed', constraints);
+            self.localStreams.push(stream);
 
-        if (cb) {
-            return cb(err, null);
-        }
+            stream.getTracks().forEach(function (track) {
+                track.addEventListener('ended', function () {
+                    if (isAllTracksEnded(stream)) {
+                        self._removeStream(stream);
+                    }
+                });
+            });
+            self.emit('localStream', stream);
+            if (cb) {
+                return cb(null, stream);
+            }
+        });
     });
 };
 
@@ -18862,6 +18885,7 @@ function Peer(options) {
         if (self.parent.config.nick) answer.nick = self.parent.config.nick;
         self.send('answer', answer);
     });
+    
     this.pc.on('addStream', this.handleRemoteStreamAdded.bind(this));
     this.pc.on('addChannel', this.handleDataChannelAdded.bind(this));
     this.pc.on('removeStream', this.handleStreamRemoved.bind(this));
@@ -18894,11 +18918,13 @@ function Peer(options) {
             this.broadcaster = options.broadcaster;
         }
     } else {
+        //设置远程媒体
         this.parent.localStreams.forEach(function (stream) {
+            var a = document.getElementById("localVideo")
+            
             self.pc.addStream(stream);
         });
     }
-
     this.on('channelOpen', function (channel) {
         if (channel.protocol === INBAND_FILETRANSFER_V1) {
             channel.onmessage = function (event) {
@@ -19061,6 +19087,7 @@ Peer.prototype.end = function () {
 };
 
 Peer.prototype.handleRemoteStreamAdded = function (event) {
+    
     var self = this;
     if (this.stream) {
         this.logger.warn('Already have a remote stream');
