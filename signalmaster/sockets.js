@@ -3,13 +3,17 @@ var socketIO = require('socket.io'),
     crypto = require('crypto');
 
 module.exports = function (server, config) {
-    var io = socketIO.listen(server);
 
+    var io = socketIO.listen(server);
     io.sockets.on('connection', function (client) {
+        // console.log(client)
+        client.config = {
+            userId: uuid()
+        };
         client.resources = {
             screen: false,
             video: true,
-            audio: false
+            audio: false,
         };
 
         // pass a message to another id
@@ -20,6 +24,7 @@ module.exports = function (server, config) {
             if (!otherClient) return;
 
             details.from = client.id;
+            details.config = client.config;
             otherClient.emit('message', details);
         });
 
@@ -62,6 +67,10 @@ module.exports = function (server, config) {
             client.join(name);
             client.room = name;
         }
+
+        client.on('getMine', function (sid, cb) {
+            safeCb(cb)(null, getClientBySid(sid));
+        });
 
         // we don't want to pass "leave" directly because the
         // event type string of "socket end" gets passed too.
@@ -107,7 +116,6 @@ module.exports = function (server, config) {
         var credentials = [];
         // allow selectively vending turn credentials based on origin.
         var origin = client.handshake.headers.origin;
-	console.log(origin);
         if (!config.turnorigins || config.turnorigins.indexOf(origin) !== -1) {
             config.turnservers.forEach(function (server) {
                 credentials.push({
@@ -120,18 +128,21 @@ module.exports = function (server, config) {
         client.emit('turnservers', credentials);
     });
 
-
     function describeRoom(name) {
         var adapter = io.nsps['/'].adapter;
+
         var clients = adapter.rooms[name] || {};
         var result = {
             clients: {}
         };
-        
+
         if(clients.length>0) {
             var a = clients.sockets;
             Object.keys(a).forEach(function (id) {
-                result.clients[id] = adapter.nsp.connected[id].resources;
+                result.clients[id] = {
+                    resources: adapter.nsp.connected[id].resources,
+                    config: adapter.nsp.connected[id].config
+                }
             })
         }
         return result;
@@ -141,6 +152,16 @@ module.exports = function (server, config) {
         return io.sockets.clients(name).length;
     }
 
+    function getClientBySid(sid){
+        var adapter = io.nsps['/'].adapter;
+        // adapter.nsp.connected[id].resources,
+        var client;
+        client = {
+            resources: adapter.nsp.connected[sid].resources,
+            config: adapter.nsp.connected[sid].config
+        }
+        return client;
+    }
 };
 
 function safeCb(cb) {

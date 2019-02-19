@@ -36,6 +36,9 @@
     .videoContainer video {
         background-color: black;
         position: absolute;
+        border: 4px solid;
+        border-color: cornflowerblue;
+        border-radius: 25px;
         width: 100%;
         height: 100%;
     }
@@ -43,7 +46,7 @@
     .videoContainer label {
         position: absolute;
         width: 100%;
-        bottom: 0;
+        bottom: -30px;
         text-align: center;
     }
 
@@ -152,11 +155,12 @@
         if (room) {
             var conn = webrtc.joinRoom(room);
             console.log(conn.connection)
-            $('#name').text(conn.connection.connection.id);
             $("#mineVideo").append(setVolMute($("#localVideo")[0]));
         }
     });
-
+    webrtc.on('getMineId', function (userId) {
+        $('#name').text(userId);
+    })
     function showVolume(el, volume) {
         if (!el) return;
         if (volume < -45) { // vary between -45 and -20
@@ -210,7 +214,7 @@
             //下方唯一id
             var name = document.createElement('label');
             name.className = 'user_name';
-            name.innerHTML = peer.id;
+            name.innerHTML = peer.userId;
             d.appendChild(vol);
             d.appendChild(name);
             d.appendChild(setVolMute(video));

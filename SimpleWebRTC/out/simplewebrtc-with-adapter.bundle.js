@@ -7605,7 +7605,7 @@ JSONPPolling.prototype.doPoll = function () {
   this.script = script;
 
   var isUAgecko = 'undefined' != typeof navigator && /gecko/i.test(navigator.userAgent);
-  
+
   if (isUAgecko) {
     setTimeout(function () {
       var iframe = document.createElement('iframe');
@@ -7933,7 +7933,6 @@ Request.prototype.create = function(){
         }
       };
     }
-
     debug('xhr data %s', this.data);
     xhr.send(this.data);
   } catch (e) {
@@ -13640,7 +13639,7 @@ var SJJ = require('sdp-jingle-json');
 var WildEmitter = require('wildemitter');
 var cloneDeep = require('lodash.clonedeep');
 
-function PeerConnection(config, constraints) {	
+function PeerConnection(config, constraints) {
     var self = this;
     var item;
     WildEmitter.call(this);
@@ -16176,6 +16175,7 @@ module.exports = Manager;
  */
 
 function Manager(uri, opts){
+  debugger
   if (!(this instanceof Manager)) return new Manager(uri, opts);
   if (uri && ('object' == typeof uri)) {
     opts = uri;
@@ -16399,7 +16399,6 @@ Manager.prototype.connect = function(fn){
 
   this.subs.push(openSub);
   this.subs.push(errorSub);
-
   return this;
 };
 
@@ -18861,6 +18860,7 @@ function Peer(options) {
     WildEmitter.call(this);
 
     this.id = options.id;
+    this.userId = options.userId;
     this.parent = options.parent;
     this.type = options.type || 'video';
     this.oneway = options.oneway || false;
@@ -18885,7 +18885,7 @@ function Peer(options) {
         if (self.parent.config.nick) answer.nick = self.parent.config.nick;
         self.send('answer', answer);
     });
-    
+
     this.pc.on('addStream', this.handleRemoteStreamAdded.bind(this));
     this.pc.on('addChannel', this.handleDataChannelAdded.bind(this));
     this.pc.on('removeStream', this.handleStreamRemoved.bind(this));
@@ -18920,8 +18920,6 @@ function Peer(options) {
     } else {
         //设置远程媒体
         this.parent.localStreams.forEach(function (stream) {
-            var a = document.getElementById("localVideo")
-            
             self.pc.addStream(stream);
         });
     }
@@ -19087,7 +19085,7 @@ Peer.prototype.end = function () {
 };
 
 Peer.prototype.handleRemoteStreamAdded = function (event) {
-    
+
     var self = this;
     if (this.stream) {
         this.logger.warn('Already have a remote stream');
@@ -19228,7 +19226,6 @@ function SimpleWebRTC(opts) {
     connection.on('message', function (message) {
         var peers = self.webrtc.getPeers(message.from, message.roomType);
         var peer;
-
         if (message.type === 'offer') {
             if (peers.length) {
                 peers.forEach(function (p) {
@@ -19240,6 +19237,7 @@ function SimpleWebRTC(opts) {
                 peer = self.webrtc.createPeer({
                     id: message.from,
                     sid: message.sid,
+                    userId: message.config.userId,
                     type: message.roomType,
                     enableDataChannels: self.config.enableDataChannels && message.roomType !== 'screen',
                     sharemyscreen: message.roomType === 'screen' && !message.broadcaster,
@@ -19472,6 +19470,9 @@ SimpleWebRTC.prototype.setVolumeForAll = function (volume) {
 SimpleWebRTC.prototype.joinRoom = function (name, cb) {
     var self = this;
     this.roomName = name;
+    this.connection.emit('getMine',this.connection.connection.id, function(err,clientMe){
+        self.emit('getMineId',clientMe.config.userId);
+    });
     this.connection.emit('join', name, function (err, roomDescription) {
         console.log('join CB', err, roomDescription);
         if (err) {
@@ -19483,11 +19484,12 @@ SimpleWebRTC.prototype.joinRoom = function (name, cb) {
                 peer;
             for (id in roomDescription.clients) {
                 client = roomDescription.clients[id];
-                for (type in client) {
-                    if (client[type]) {
+                for (type in client.resources) {
+                    if (client.resources[type]) {
                         peer = self.webrtc.createPeer({
                             id: id,
                             type: type,
+                            userId: client.config.userId,
                             enableDataChannels: self.config.enableDataChannels && type !== 'screen',
                             receiveMedia: {
                                 offerToReceiveAudio: type !== 'screen' && self.config.receiveMedia.offerToReceiveAudio ? 1 : 0,
@@ -19500,11 +19502,10 @@ SimpleWebRTC.prototype.joinRoom = function (name, cb) {
                 }
             }
         }
-
         if (cb) cb(err, roomDescription);
         self.emit('joinedRoom', name);
     });
-    return this;
+    return self;
 };
 
 SimpleWebRTC.prototype.getEl = function (idOrEl) {
