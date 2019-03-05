@@ -3714,7 +3714,7 @@ module.exports = function (stream, el, options) {
     if (!opts.audio && opts.mirror) {
         ['', 'moz', 'webkit', 'o', 'ms'].forEach(function (prefix) {
             var styleName = prefix ? prefix + 'Transform' : 'transform';
-            element.style[styleName] = 'scaleX(-1)';
+            // element.style[styleName] = 'scaleX(-1)';
         });
     }
 
@@ -19467,10 +19467,13 @@ SimpleWebRTC.prototype.setVolumeForAll = function (volume) {
     });
 };
 
+// 在这里取的
 SimpleWebRTC.prototype.joinRoom = function (name, cb) {
+  debugger
     var self = this;
     this.roomName = name;
-    this.connection.emit('getMine',this.connection.connection.id, function(err,clientMe){
+    var userId = localStorage.getItem(this.config.userId);
+    this.connection.emit('getMine', this.connection.connection.id, userId, function(err,clientMe){
         self.emit('getMineId',clientMe.config.userId);
     });
     this.connection.emit('join', name, function (err, roomDescription) {

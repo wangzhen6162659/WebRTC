@@ -7,9 +7,6 @@ module.exports = function (server, config) {
     var io = socketIO.listen(server);
     io.sockets.on('connection', function (client) {
         // console.log(client)
-        client.config = {
-            userId: uuid()
-        };
         client.resources = {
             screen: false,
             video: true,
@@ -53,27 +50,26 @@ module.exports = function (server, config) {
         }
 
         function join(name, cb) {
-            // sanity check
+            console.log(client.config)
             if (typeof name !== 'string') return;
-            // check if maximum number of clients reached
             if (config.rooms && config.rooms.maxClients > 0 &&
                 clientsInRoom(name) >= config.rooms.maxClients) {
                 safeCb(cb)('full');
                 return;
             }
-            // leave any existing rooms
             removeFeed();
             safeCb(cb)(null, describeRoom(name));
             client.join(name);
             client.room = name;
         }
 
-        client.on('getMine', function (sid, cb) {
+        client.on('getMine', function (sid,userId,cb) {
+            client.config = {
+                userId: userId
+            };
             safeCb(cb)(null, getClientBySid(sid));
         });
 
-        // we don't want to pass "leave" directly because the
-        // event type string of "socket end" gets passed too.
         client.on('disconnect', function () {
             removeFeed();
         });
@@ -99,22 +95,15 @@ module.exports = function (server, config) {
             }
         });
 
-        // support for logging full webrtc traces to stdout
-        // useful for large-scale error monitoring
         client.on('trace', function (data) {
             console.log('trace', JSON.stringify(
             [data.type, data.session, data.prefix, data.peer, data.time, data.value]
             ));
         });
 
-
-        // tell client about stun and turn servers and generate nonces
         client.emit('stunservers', config.stunservers || []);
 
-        // create shared secret nonces for TURN authentication
-        // the process is described in draft-uberti-behave-turn-rest
         var credentials = [];
-        // allow selectively vending turn credentials based on origin.
         var origin = client.handshake.headers.origin;
         if (!config.turnorigins || config.turnorigins.indexOf(origin) !== -1) {
             config.turnservers.forEach(function (server) {
@@ -154,7 +143,6 @@ module.exports = function (server, config) {
 
     function getClientBySid(sid){
         var adapter = io.nsps['/'].adapter;
-        // adapter.nsp.connected[id].resources,
         var client;
         client = {
             resources: adapter.nsp.connected[sid].resources,
