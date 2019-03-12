@@ -1,11 +1,10 @@
 # WebRTC 远程视频会议
 ## coturn 只是一个示例，服务器上需要自己下载并配置turnserver.conf
-`
+```
 git clone https://github.com/coturn/coturn.git  
-<br>
 创建并配置turnserver.conf  
 turnserver -a -v --user ${username}:${password} -r=外网ip -X 外网ip -f --no-cli  
-`
+```
 ## signalmaster 服务端程序，主要用于客户端之间的交互以及数据传输
 ### config/development.json 可以使用谷歌的turn也可以使用自己的turn
 ### 程序运行
