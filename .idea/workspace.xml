@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49e35fc6-41cb-42c5-95e7-b4a4100f2d7a" name="Default" comment="修正了">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/WebRTC.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/SimpleWebRTC/src/function/videoFunc.js" />
-      <change beforePath="$PROJECT_DIR$/SimpleWebRTC/out/config.js" afterPath="$PROJECT_DIR$/SimpleWebRTC/out/config.js" />
-      <change beforePath="$PROJECT_DIR$/SimpleWebRTC/out/simplewebrtc-with-adapter.bundle.js" afterPath="$PROJECT_DIR$/SimpleWebRTC/out/simplewebrtc-with-adapter.bundle.js" />
-      <change beforePath="$PROJECT_DIR$/SimpleWebRTC/test/index.html" afterPath="$PROJECT_DIR$/SimpleWebRTC/test/index.html" />
-    </list>
+    <list default="true" id="49e35fc6-41cb-42c5-95e7-b4a4100f2d7a" name="Default" comment="修正了" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,8 +56,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SimpleWebRTC/test/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="37">
-              <caret line="70" column="19" lean-forward="false" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
+            <state relative-caret-position="222">
+              <caret line="75" column="19" lean-forward="true" selection-start-line="75" selection-start-column="19" selection-end-line="75" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -220,7 +212,7 @@
     <handled-path value="$PROJECT_DIR$/SimpleWebRTC/node_modules" />
     <handled-path value="$PROJECT_DIR$/signalmaster/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1400" />
@@ -453,7 +445,7 @@
       <workItem from="1551768329412" duration="10824000" />
       <workItem from="1552008771208" duration="3311000" />
       <workItem from="1552283922821" duration="638000" />
-      <workItem from="1552357340758" duration="280000" />
+      <workItem from="1552357340758" duration="685000" />
     </task>
     <task id="LOCAL-00001" summary="适应了摄像头不存在时正常使用">
       <created>1549945673255</created>
@@ -487,7 +479,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71652000" />
+    <option name="totallyTimeSpent" value="72057000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -499,9 +491,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
+      <window_info id="SVN Repositories" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32924107" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924107" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -974,8 +966,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SimpleWebRTC/test/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37">
-          <caret line="70" column="19" lean-forward="false" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
+        <state relative-caret-position="222">
+          <caret line="75" column="19" lean-forward="true" selection-start-line="75" selection-start-column="19" selection-end-line="75" selection-end-column="19" />
           <folding />
         </state>
       </provider>
