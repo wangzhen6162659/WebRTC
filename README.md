@@ -1,7 +1,9 @@
 # WebRTC 远程视频会议
 ## coturn 只是一个示例，服务器上需要自己下载并配置turnserver.conf
 ```
-git clone https://github.com/coturn/coturn.git  
+git clone https://github.com/coturn/coturn.git 
+./configure
+make & make install 
 创建并配置turnserver.conf  
 turnserver -a -v --user ${username}:${password} -r=${外网ip} -X ${外网ip} -f --no-cli  
 ```
