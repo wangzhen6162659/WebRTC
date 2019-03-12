@@ -1,0 +1,179 @@
+error resolving '123.56.221.77:22' hostname: Name or service not known
+0: IPv4. Connected from: 172.17.229.167:55484
+0: IPv4. Connected to: 172.17.229.167:3478
+0: allocate sent
+recv: Connection refused
+0: IPv4. Connected from: 172.17.229.167:34785
+0: IPv4. Connected to: 106.0.0.1:3478
+0: allocate sent
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+Cannot bind socket to device: No such device
+0: log file opened: /var/log/turn_7118_2018-11-28.log
+0: Listener address to use: 172.17.229.167
+0: Config file found: /ompf/coturn-server/coturn/bin/turnserver.conf
+0: 
+RFC 3489/5389/5766/5780/6062/6156 STUN/TURN Server
+Version Coturn-4.5.0.8 'dan Eider'
+0: 
+Max number of open files/sockets allowed for this process: 65535
+0: 
+Due to the open files/sockets limitation,
+max supported number of TURN Sessions possible is: 32500 (approximately)
+0: 
+
+==== Show him the instruments, Practical Frost: ====
+
+0: TLS supported
+0: DTLS supported
+0: DTLS 1.2 supported
+0: TURN/STUN ALPN supported
+0: Third-party authorization (oAuth) supported
+0: GCM (AEAD) supported
+0: OpenSSL compile-time version: OpenSSL 1.0.2k-fips  26 Jan 2017 (0x100020bf)
+0: 
+0: SQLite is not supported
+0: Redis is not supported
+0: PostgreSQL is not supported
+0: MySQL is not supported
+0: MongoDB is not supported
+0: 
+0: Default Net Engine version: 3 (UDP thread per CPU core)
+
+=====================================================
+
+0: Domain name: 
+0: Default realm: abc.org
+0: Config file found: /etc/turn_server_cert.pem
+0: Config file found: /etc/turn_server_pkey.pem
+0: SSL23: Certificate file found: /etc/turn_server_cert.pem
+0: SSL23: Private key file found: /etc/turn_server_pkey.pem
+0: TLS1.0: Certificate file found: /etc/turn_server_cert.pem
+0: TLS1.0: Private key file found: /etc/turn_server_pkey.pem
+0: TLS1.1: Certificate file found: /etc/turn_server_cert.pem
+0: TLS1.1: Private key file found: /etc/turn_server_pkey.pem
+0: TLS1.2: Certificate file found: /etc/turn_server_cert.pem
+0: TLS1.2: Private key file found: /etc/turn_server_pkey.pem
+0: TLS cipher suite: DEFAULT
+0: DTLS: Certificate file found: /etc/turn_server_cert.pem
+0: DTLS: Private key file found: /etc/turn_server_pkey.pem
+0: DTLS1.2: Certificate file found: /etc/turn_server_cert.pem
+0: DTLS1.2: Private key file found: /etc/turn_server_pkey.pem
+0: DTLS cipher suite: DEFAULT
+0: Relay address to use: 172.17.229.167
+0: pid file created: /var/run/turnserver.pid
+0: IO method (main listener thread): epoll (with changelist)
+0: WARNING: I cannot support STUN CHANGE_REQUEST functionality because only one IP address is provided
+0: Wait for relay ports initialization...
+0:   relay 172.17.229.167 initialization...
+0:   relay 172.17.229.167 initialization done
+0: Relay ports initialization done
+0: IO method (general relay thread): epoll (with changelist)
+0: turn server id=0 created
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: IO method (general relay thread): epoll (with changelist)
+0: turn server id=1 created
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Cannot bind listener socket to device aemon
+0: Total General servers: 2
+0: IO method (auth thread): epoll (with changelist)
+0: IO method (auth thread): epoll (with changelist)
+0: IO method (admin thread): epoll (with changelist)
+set_rtpfile: resetting the log file
+49200: log file opened: /var/log/turn_7118_2018-11-29.log
+49200: log file opened: /var/log/turn_7118_2018-11-29.log
+135597: log file opened: /var/log/turn_7118_2018-11-30.log
+221999: log file opened: /var/log/turn_7118_2018-12-01.log
+308396: log file opened: /var/log/turn_7118_2018-12-02.log
+394799: log file opened: /var/log/turn_7118_2018-12-03.log
+481201: log file opened: /var/log/turn_7118_2018-12-04.log
+567598: log file opened: /var/log/turn_7118_2018-12-05.log
+653998: log file opened: /var/log/turn_7118_2018-12-06.log
+740400: log file opened: /var/log/turn_7118_2018-12-07.log
+826797: log file opened: /var/log/turn_7118_2018-12-08.log
+913199: log file opened: /var/log/turn_7118_2018-12-09.log
+999596: log file opened: /var/log/turn_7118_2018-12-10.log
+1085999: log file opened: /var/log/turn_7118_2018-12-11.log
+1172401: log file opened: /var/log/turn_7118_2018-12-12.log
+1258798: log file opened: /var/log/turn_7118_2018-12-13.log
+1345200: log file opened: /var/log/turn_7118_2018-12-14.log
+1431598: log file opened: /var/log/turn_7118_2018-12-15.log
+1518000: log file opened: /var/log/turn_7118_2018-12-16.log
+1604397: log file opened: /var/log/turn_7118_2018-12-17.log
+1690800: log file opened: /var/log/turn_7118_2018-12-18.log
+1777197: log file opened: /var/log/turn_7118_2018-12-19.log
+1863599: log file opened: /var/log/turn_7118_2018-12-20.log
+1949996: log file opened: /var/log/turn_7118_2018-12-21.log
+2036399: log file opened: /var/log/turn_7118_2018-12-22.log
+2122801: log file opened: /var/log/turn_7118_2018-12-23.log
+2209198: log file opened: /var/log/turn_7118_2018-12-24.log
+2226630: ERROR: session 001000000000000456: TCP socket error: Connection reset by peer 185.156.177.194:1238
+2295600: log file opened: /var/log/turn_7118_2018-12-25.log
+2381998: log file opened: /var/log/turn_7118_2018-12-26.log
+2468400: log file opened: /var/log/turn_7118_2018-12-27.log
+2554797: log file opened: /var/log/turn_7118_2018-12-28.log
+2641200: log file opened: /var/log/turn_7118_2018-12-29.log
+2727597: log file opened: /var/log/turn_7118_2018-12-30.log
+2813999: log file opened: /var/log/turn_7118_2018-12-31.log
+2900396: log file opened: /var/log/turn_7118_2019-01-01.log
+2986799: log file opened: /var/log/turn_7118_2019-01-02.log
+3073201: log file opened: /var/log/turn_7118_2019-01-03.log
+3159598: log file opened: /var/log/turn_7118_2019-01-04.log
+3246001: log file opened: /var/log/turn_7118_2019-01-05.log
+3332398: log file opened: /var/log/turn_7118_2019-01-06.log
+3418800: log file opened: /var/log/turn_7118_2019-01-07.log
+3505197: log file opened: /var/log/turn_7118_2019-01-08.log
+3591600: log file opened: /var/log/turn_7118_2019-01-09.log
+3677997: log file opened: /var/log/turn_7118_2019-01-10.log
+3764399: log file opened: /var/log/turn_7118_2019-01-11.log
+3850796: log file opened: /var/log/turn_7118_2019-01-12.log
+3937199: log file opened: /var/log/turn_7118_2019-01-13.log
+4023601: log file opened: /var/log/turn_7118_2019-01-14.log
+4109998: log file opened: /var/log/turn_7118_2019-01-15.log
+4196401: log file opened: /var/log/turn_7118_2019-01-16.log
+4282798: log file opened: /var/log/turn_7118_2019-01-17.log
+4369200: log file opened: /var/log/turn_7118_2019-01-18.log
+4455597: log file opened: /var/log/turn_7118_2019-01-19.log
+4542000: log file opened: /var/log/turn_7118_2019-01-20.log
+4628397: log file opened: /var/log/turn_7118_2019-01-21.log
+4714799: log file opened: /var/log/turn_7118_2019-01-22.log
+4801197: log file opened: /var/log/turn_7118_2019-01-23.log
+4814013: ERROR: session 001000000000000466: TCP socket error: Connection reset by peer 185.176.26.5:29673
+4887599: log file opened: /var/log/turn_7118_2019-01-24.log
+4944825: ERROR: session 001000000000000467: TCP socket error: Connection reset by peer 188.92.73.25:12095
+4974001: log file opened: /var/log/turn_7118_2019-01-25.log
+5060398: log file opened: /var/log/turn_7118_2019-01-26.log
+5146801: log file opened: /var/log/turn_7118_2019-01-27.log
+5233198: log file opened: /var/log/turn_7118_2019-01-28.log
+5319600: log file opened: /var/log/turn_7118_2019-01-29.log
+5405997: log file opened: /var/log/turn_7118_2019-01-30.log
+5492400: log file opened: /var/log/turn_7118_2019-01-31.log
+5539202: ERROR: session 000000000000000539: TCP socket error: Connection reset by peer 193.238.46.82:44551
+5578797: log file opened: /var/log/turn_7118_2019-02-01.log
+5665199: log file opened: /var/log/turn_7118_2019-02-02.log
+5751597: log file opened: /var/log/turn_7118_2019-02-03.log
+5837999: log file opened: /var/log/turn_7118_2019-02-04.log
+5924401: log file opened: /var/log/turn_7118_2019-02-05.log
+6010798: log file opened: /var/log/turn_7118_2019-02-06.log
+6097201: log file opened: /var/log/turn_7118_2019-02-07.log
+6183598: log file opened: /var/log/turn_7118_2019-02-08.log
+6270000: log file opened: /var/log/turn_7118_2019-02-09.log
+6356398: log file opened: /var/log/t
