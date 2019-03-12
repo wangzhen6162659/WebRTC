@@ -39,4 +39,4 @@ npm run test-page
 ## 配置nginx的SSL信息，将服务端和客户端指向于同一个端口443即可完成https的配置
 
 ## 访问地址 https://localhost/test/?2
-## 测试地址 https://47.106.221.149/test/?2
+## 项目示例测试地址 https://47.106.221.149/test/?2
