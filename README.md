@@ -2,7 +2,11 @@
 ## coturn 只是一个示例，服务器上需要自己下载并配置turnserver.conf
 `
 git clone https://github.com/coturn/coturn.git
+`
+`
 创建并配置turnserver.conf
+`
+`
 turnserver -a -v --user ${username}:${password} -r=外网ip -X 外网ip -f --no-cli
 `
 ## signalmaster 服务端程序，主要用于客户端之间的交互以及数据传输
@@ -16,6 +20,8 @@ node server.js
 ### config.js 需要根据自己的服务ip进行修改
 `
 //socket地址设置
+`
+`
 var port = "https://xxx:443";
 function getPort(){
     return port;
