@@ -37,7 +37,7 @@
         background-color: black;
         position: absolute;
         border: 4px solid;
-        border-color: cornflowerblue;
+        border-color: #22a2ed;
         border-radius: 25px;
         width: 100%;
         height: 100%;
@@ -85,6 +85,14 @@
         position: absolute;
         right: 5px;
         top: 15px;
+        background-color: cornflowerblue;
+        border-radius: 20px;
+    }
+    .small_video_menu:nth-child(1){
+        top: 15px;
+    }
+    .small_video_menu:nth-child(2){
+        top: 58px;
     }
 
     .mid_video_style {
@@ -129,6 +137,7 @@
 <script src="../out/config.js"></script>
 <script src="../out/jquery.js"></script>
 <script src="../out/simplewebrtc-with-adapter.bundle.js"></script>
+<script src="../src/function/videoFunc.js"></script>
 <script>
     var tag1 = "静音";
     var tag2 = "取消静音";
@@ -157,7 +166,7 @@
         if (room) {
             var conn = webrtc.joinRoom(room);
             console.log(conn.connection)
-            $("#mineVideo").append(setVolMute($("#localVideo")[0]));
+            $("#mineVideo").append(buttonSet($("#localVideo")[0], setVolMute));
         }
     });
     webrtc.on('getMineId', function (userId) {
@@ -219,7 +228,7 @@
             name.innerHTML = peer.userId;
             d.appendChild(vol);
             d.appendChild(name);
-            d.appendChild(setVolMute(video));
+            d.appendChild(buttonSet(video, setVolMute));
             remotes.appendChild(d);
         }
     });
@@ -289,40 +298,10 @@
             // div.appendChild(setVolMute(copyNode));
             midVideo.appendChild(div);
             window.clearInterval(t);
+            setMidButton(localVideo[0], midVideo)
             localVideo[0].onclick = function () {
-                $("#mid_video").empty();
-                var copyNode = localVideo[0].cloneNode();
-                copyNode.srcObject = localVideo[0].srcObject;
-                // copyNode.style.width = '400%';
-                copyNode.style.height = '400%';
-                var div = document.createElement('div');
-                div.className = 'videoContainer';
-                div.appendChild(copyNode);
-                //附加按钮
-                // div.appendChild(setVolMute(copyNode));
-                midVideo.appendChild(div);
+                setMidButton(localVideo[0], midVideo)
             }
-        }
-    }
-
-    function setVolMute(volEl) {
-        //附加按钮
-        volEl.muted = true;
-        var bt = document.createElement("button");
-        bt.className = 'small_video_menu';
-        setVolMuteTag(bt, volEl)
-        bt.onclick = function () {
-            //绑定点击事件
-            volEl.muted = !volEl.muted;
-            setVolMuteTag(bt, volEl)
-        }
-        return bt;
-    }
-    function setVolMuteTag(btEl, volEl) {
-        if (volEl.muted) {
-            btEl.innerHTML = tag2;
-        } else {
-            btEl.innerHTML = tag1;
         }
     }
 </script>

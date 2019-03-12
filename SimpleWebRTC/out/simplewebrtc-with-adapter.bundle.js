@@ -16175,7 +16175,6 @@ module.exports = Manager;
  */
 
 function Manager(uri, opts){
-  debugger
   if (!(this instanceof Manager)) return new Manager(uri, opts);
   if (uri && ('object' == typeof uri)) {
     opts = uri;
@@ -19469,7 +19468,6 @@ SimpleWebRTC.prototype.setVolumeForAll = function (volume) {
 
 // 在这里取的
 SimpleWebRTC.prototype.joinRoom = function (name, cb) {
-  debugger
     var self = this;
     this.roomName = name;
     var userId = localStorage.getItem(this.config.userId);
