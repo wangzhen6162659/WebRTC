@@ -1,0 +1,264 @@
+0: log file opened: /var/log/turn_4444_2018-11-27.log
+0: WARNING: Cannot find config file: turnserver.conf. Default and command-line settings will be used.
+0: WARNING: option -r is possibly used incorrectly. The short form of the option must be used as this: -r <value>, no 'equals' sign may be used, that sign is used only with long form options (like --user=<username>).
+0: WARNING: Cannot find config file: turnserver.conf. Default and command-line settings will be used.
+0: 
+RFC 3489/5389/5766/5780/6062/6156 STUN/TURN Server
+Version Coturn-4.5.0.8 'dan Eider'
+0: 
+Max number of open files/sockets allowed for this process: 65535
+0: 
+Due to the open files/sockets limitation,
+max supported number of TURN Sessions possible is: 32500 (approximately)
+0: 
+
+==== Show him the instruments, Practical Frost: ====
+
+0: TLS supported
+0: DTLS supported
+0: DTLS 1.2 supported
+0: TURN/STUN ALPN supported
+0: Third-party authorization (oAuth) supported
+0: GCM (AEAD) supported
+0: OpenSSL compile-time version: OpenSSL 1.0.2k-fips  26 Jan 2017 (0x100020bf)
+0: 
+0: SQLite is not supported
+0: Redis is not supported
+0: PostgreSQL is not supported
+0: MySQL is not supported
+0: MongoDB is not supported
+0: 
+0: Default Net Engine version: 3 (UDP thread per CPU core)
+
+=====================================================
+
+0: Domain name: 
+0: Default realm: =wzroom.cn
+0: 
+CONFIGURATION ALERT: You specified --lt-cred-mech and --use-auth-secret in the same time.
+Be aware that you could not mix the username/password and the shared secret based auth methohds. 
+Shared secret overrides username/password based auth method. Check your configuration!
+0: WARNING: cannot find certificate file: turn_server_cert.pem (1)
+0: WARNING: cannot start TLS and DTLS listeners because certificate file is not set properly
+0: WARNING: cannot find private key file: turn_server_pkey.pem (1)
+0: WARNING: cannot start TLS and DTLS listeners because private key file is not set properly
+0: NO EXPLICIT LISTENER ADDRESS(ES) ARE CONFIGURED
+0: ===========Discovering listener addresses: =========
+0: Listener address to use: 127.0.0.1
+0: Listener address to use: 172.17.229.167
+0: =====================================================
+0: Total: 1 'real' addresses discovered
+0: =====================================================
+0: NO EXPLICIT RELAY ADDRESS(ES) ARE CONFIGURED
+0: ===========Discovering relay addresses: =============
+0: Relay address to use: 172.17.229.167
+0: =====================================================
+0: Total: 1 relay addresses discovered
+0: =====================================================
+0: pid file created: /var/run/turnserver.pid
+0: IO method (main listener thread): epoll (with changelist)
+0: WARNING: I cannot support STUN CHANGE_REQUEST functionality because only one IP address is provided
+0: Wait for relay ports initialization...
+0:   relay 172.17.229.167 initialization...
+0:   relay 172.17.229.167 initialization done
+0: Relay ports initialization done
+0: IO method (general relay thread): epoll (with changelist)
+0: turn server id=0 created
+0: IPv4. SCTP listener opened on : 127.0.0.1:3478
+0: IPv4. TCP listener opened on : 127.0.0.1:3478
+0: IPv4. SCTP listener opened on : 172.17.229.167:3478
+0: IPv4. TCP listener opened on : 172.17.229.167:3478
+0: IO method (general relay thread): epoll (with changelist)
+0: turn server id=1 created
+0: IPv4. TCP listener opened on : 127.0.0.1:3478
+0: IPv4. UDP listener opened on: 127.0.0.1:3478
+0: IPv4. TCP listener opened on : 172.17.229.167:3478
+0: IPv4. UDP listener opened on: 172.17.229.167:3478
+0: Total General servers: 2
+0: IO method (auth thread): epoll (with changelist)
+0: IO method (auth thread): epoll (with changelist)
+0: IO method (admin thread): epoll (with changelist)
+0: IPv4. CLI listener opened on : 127.0.0.1:5766
+416: IPv4. tcp or tls connected to: 58.16.181.23:50412
+422: session 000000000000000001: TCP socket closed remotely 58.16.181.23:50412
+422: session 000000000000000001: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+422: session 000000000000000001: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:50412, reason: TCP connection closed by client (callback)
+465: IPv4. tcp or tls connected to: 123.56.221.77:54832
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: ERROR: check_stun_auth: Cannot find credentials of user <>
+465: session 001000000000000001: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+465: session 001000000000000001: TCP socket closed remotely 123.56.221.77:54832
+465: session 001000000000000001: usage: realm=<=wzroom.cn>, username=<>, rp=32, rb=3392, sp=32, sb=3712
+465: session 001000000000000001: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 123.56.221.77:54832, reason: TCP connection closed by client (callback)
+1595: IPv4. tcp or tls connected to: 58.16.181.23:53429
+1595: read_client_connection: HTTP request: GET / HTTP/1.1
+Host: 123.56.221.77:3478
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.1.326709004.1538217060; jenkins-timestamper-offset=-28800000; jenkins-timestamper=system; jenkins-timestamper-local=true; screenResolution=1920x1080; JSESSIONID.9908a12a=node01bi97840a1ih96jpexijoottp175.node0; ACEGI_SECURITY_HASHED_REMEMBER_ME_COOKIE=YWRtaW46MTU0NDUxNzg0MTk1ODpjMzJiOWEyYmQ4ZGEyYWZmNjEwN2FmZmRmOWVjYmRlNDViOWM4ZDM4OWQyMmUyMGQ0NTA1ZjhlOWY5M2E4ZmIy
+
+
+1595: IPv4. tcp or tls connected to: 58.16.181.23:53430
+1595: session 000000000000000002: TCP socket closed remotely 58.16.181.23:53429
+1595: session 000000000000000002: usage: realm=<=wzroom.cn>, username=<>, rp=1, rb=768, sp=0, sb=0
+1595: session 000000000000000002: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:53429, reason: TCP connection closed by client (callback)
+1595: read_client_connection: HTTP request: GET /favicon.ico HTTP/1.1
+Host: 123.56.221.77:3478
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://123.56.221.77:3478/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.1.326709004.1538217060; jenkins-timestamper-offset=-28800000; jenkins-timestamper=system; jenkins-timestamper-local=true; screenResolution=1920x1080; JSESSIONID.9908a12a=node01bi97840a1ih96jpexijoottp175.node0; ACEGI_SECURITY_HASHED_REMEMBER_ME_COOKIE=YWRtaW46MTU0NDUxNzg0MTk1ODpjMzJiOWEyYmQ4ZGEyYWZmNjEwN2FmZmRmOWVjYmRlNDViOWM4ZDM4OWQyMmUyMGQ0NTA1ZjhlOWY5M2E4ZmIy
+
+
+1595: session 001000000000000002: TCP socket closed remotely 58.16.181.23:53430
+1595: session 001000000000000002: usage: realm=<=wzroom.cn>, username=<>, rp=1, rb=740, sp=0, sb=0
+1595: session 001000000000000002: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:53430, reason: TCP connection closed by client (callback)
+1761: IPv4. tcp or tls connected to: 58.16.181.23:53848
+1761: IPv4. tcp or tls connected to: 58.16.181.23:53849
+1761: IPv4. tcp or tls connected to: 58.16.181.23:53847
+1774: session 001000000000000004: TCP socket closed remotely 58.16.181.23:53849
+1774: session 001000000000000004: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+1774: session 001000000000000004: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:53849, reason: TCP connection closed by client (callback)
+1791: session 001000000000000003: TCP socket closed remotely 58.16.181.23:53848
+1791: session 001000000000000003: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+1791: session 001000000000000003: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:53848, reason: TCP connection closed by client (callback)
+1791: session 001000000000000005: TCP socket closed remotely 58.16.181.23:53847
+1791: session 001000000000000005: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+1791: session 001000000000000005: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:53847, reason: TCP connection closed by client (callback)
+1918: IPv4. tcp or tls connected to: 58.16.181.23:54237
+1918: IPv4. tcp or tls connected to: 58.16.181.23:54238
+1918: IPv4. tcp or tls connected to: 58.16.181.23:54236
+1923: read_client_connection: HTTP request: GET / HTTP/1.1
+Host: 123.56.221.77:3478
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.1.326709004.1538217060; jenkins-timestamper-offset=-28800000; jenkins-timestamper=system; jenkins-timestamper-local=true; screenResolution=1920x1080; JSESSIONID.9908a12a=node01bi97840a1ih96jpexijoottp175.node0; ACEGI_SECURITY_HASHED_REMEMBER_ME_COOKIE=YWRtaW46MTU0NDUxNzg0MTk1ODpjMzJiOWEyYmQ4ZGEyYWZmNjEwN2FmZmRmOWVjYmRlNDViOWM4ZDM4OWQyMmUyMGQ0NTA1ZjhlOWY5M2E4ZmIy
+
+
+1924: IPv4. tcp or tls connected to: 58.16.181.23:54256
+1924: session 000000000000000004: TCP socket closed remotely 58.16.181.23:54238
+1924: session 000000000000000004: usage: realm=<=wzroom.cn>, username=<>, rp=1, rb=768, sp=0, sb=0
+1924: session 000000000000000004: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:54238, reason: TCP connection closed by client (callback)
+1924: read_client_connection: HTTP request: GET /favicon.ico HTTP/1.1
+Host: 123.56.221.77:3478
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://123.56.221.77:3478/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.1.326709004.1538217060; jenkins-timestamper-offset=-28800000; jenkins-timestamper=system; jenkins-timestamper-local=true; screenResolution=1920x1080; JSESSIONID.9908a12a=node01bi97840a1ih96jpexijoottp175.node0; ACEGI_SECURITY_HASHED_REMEMBER_ME_COOKIE=YWRtaW46MTU0NDUxNzg0MTk1ODpjMzJiOWEyYmQ4ZGEyYWZmNjEwN2FmZmRmOWVjYmRlNDViOWM4ZDM4OWQyMmUyMGQ0NTA1ZjhlOWY5M2E4ZmIy
+
+
+1924: session 000000000000000005: TCP socket closed remotely 58.16.181.23:54256
+1924: session 000000000000000005: usage: realm=<=wzroom.cn>, username=<>, rp=1, rb=740, sp=0, sb=0
+1924: session 000000000000000005: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:54256, reason: TCP connection closed by client (callback)
+1927: IPv4. tcp or tls connected to: 58.16.181.23:54268
+1937: session 000000000000000006: TCP socket closed remotely 58.16.181.23:54268
+1937: session 000000000000000006: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+1937: session 000000000000000006: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:54268, reason: TCP connection closed by client (callback)
+1948: session 000000000000000003: TCP socket closed remotely 58.16.181.23:54237
+1948: session 000000000000000003: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+1948: session 000000000000000003: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:54237, reason: TCP connection closed by client (callback)
+1948: session 001000000000000006: TCP socket closed remotely 58.16.181.23:54236
+1948: session 001000000000000006: usage: realm=<=wzroom.cn>, username=<>, rp=0, rb=0, sp=0, sb=0
+1948: session 001000000000000006: closed (2nd stage), user <> realm <=wzroom.cn> origin <>, local 172.17.229.167:3478, remote 58.16.181.23:54236, reason: TCP connection closed by client (callback)
+set_rtpfile: resetting the log file
+23524: log file opened: /var/log/turn_4444_2018-11-28.log
+23524: log file opened: /var/log/turn_4444_2018-11-28.log
+58082: handle_udp_packet: New UDP endpoint: local addr 172.17.229.167:3478, remote addr 123.56.221.77:33781
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find credentials of user <>
+58082: session 001000000000000007: realm <=wzroom.cn> user <>: incoming packet message processed, error 401: Unauthorized
+58082: ERROR: check_stun_auth: Cannot find cre
