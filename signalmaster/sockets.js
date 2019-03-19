@@ -169,7 +169,11 @@ module.exports = function (server, config) {
     }
 
     function clientsInRoom(name) {
-        return io.sockets.clients(name).length;
+        var clients = io.nsps['/'].adapter.rooms[name];
+        if (clients && clients.length){
+            return clients.length
+        }
+        return null
     }
 
     function getClientBySid(sid){
