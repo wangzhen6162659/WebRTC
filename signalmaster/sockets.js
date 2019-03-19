@@ -1,12 +1,44 @@
 var socketIO = require('socket.io'),
     uuid = require('node-uuid'),
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    debug = require('debug')('drawguess:server'),
+    http = require('http');
 
+var drawArr = {}
 module.exports = function (server, config) {
-
     var io = socketIO.listen(server);
     io.sockets.on('connection', function (client) {
-        // console.log(client)
+        client.on('startConnect', function(data) {
+            // console.log('startConnect', data)
+            // 向客户端广播绘图事件,返回数据流
+            if (data.room && data.uuid) {
+                if (!drawArr[data.room]) {
+                    drawArr[data.room] = {}
+                }
+                if (!drawArr[data.room][data.uuid]) {
+                    drawArr[data.room][data.uuid] = []
+                }
+                drawArr[data.room][data.uuid].push(data.point)
+                io.sockets.emit('drawCanvas', data)
+            }
+        })
+
+        // 清除绘制id
+        client.on('flashMouse', function(data) {
+            io.sockets.emit('flashMouseEmit', data)
+        })
+
+        // 清除绘制id
+        client.on('overDraw', function(data) {
+            io.sockets.emit('drawEnd', data)
+        })
+
+        // 初始化绘图画面
+        client.on('initDrawReady', function(room) {
+            if (drawArr[room]){
+                io.sockets.emit('initDraw', drawArr[room])
+            }
+        })
         client.resources = {
             screen: false,
             video: true,
@@ -50,7 +82,6 @@ module.exports = function (server, config) {
         }
 
         function join(name, cb) {
-            console.log(client.config)
             if (typeof name !== 'string') return;
             if (config.rooms && config.rooms.maxClients > 0 &&
                 clientsInRoom(name) >= config.rooms.maxClients) {

@@ -19419,6 +19419,24 @@ SimpleWebRTC.prototype.disconnect = function () {
     delete this.connection;
 };
 
+/*控制摄像头数据传输*/
+SimpleWebRTC.prototype.videoOffCon = function () {
+    this.webrtc.pauseVideo()
+}
+
+SimpleWebRTC.prototype.videoOpenCon = function () {
+    this.webrtc.resumeVideo()
+}
+
+/*控制麦克风数据传输*/
+SimpleWebRTC.prototype.audioOffCon = function () {
+    this.webrtc.mute()
+}
+
+SimpleWebRTC.prototype.audioOpenCon = function () {
+    this.webrtc.unmute()
+}
+
 SimpleWebRTC.prototype.handlePeerStreamAdded = function (peer) {
     var self = this;
     var container = this.getRemoteVideoContainer();
@@ -19445,6 +19463,55 @@ SimpleWebRTC.prototype.handlePeerStreamAdded = function (peer) {
         }
     }, 250);
 };
+/*通知前端初始化绘图*/
+SimpleWebRTC.prototype.initDraw = function () {
+    this.connection.on('initDraw', function (data) {
+        initDraw(data);
+    })
+};
+/*通知前端绘图*/
+SimpleWebRTC.prototype.openBoard = function (name, cb) {
+    this.connection.on('drawCanvas', function (data) {
+        if (data && data.room && data.room === name){
+            moveStroke(data);
+        }
+    })
+};
+/*通知前端清除绘图UUID*/
+SimpleWebRTC.prototype.removeBoard = function (name) {
+    this.connection.on('drawEnd', function (data) {
+        if (data && data.room && data.room === name) {
+            removeUUID(data);
+        }
+    })
+};
+
+/*通知前端同步鼠标路径*/
+SimpleWebRTC.prototype.flashMouseEmit = function () {
+    this.connection.on('flashMouseEmit', function (data) {
+        flashMouseData(data)
+    })
+};
+
+/*开始同步鼠标路径*/
+SimpleWebRTC.prototype.flashMouse = function (data) {
+    this.connection.emit('flashMouse', data)
+};
+
+/*开始同步绘图*/
+SimpleWebRTC.prototype.flashBoard = function (data) {
+    this.connection.emit('startConnect', data)
+};
+
+/*清除绘图标识*/
+SimpleWebRTC.prototype.endFlash = function (data) {
+    this.connection.emit('overDraw', data)
+};
+
+/*开始绘画初始化*/
+SimpleWebRTC.prototype.initDrawReady = function (room) {
+    this.connection.emit('initDrawReady', room)
+}
 
 SimpleWebRTC.prototype.handlePeerStreamRemoved = function (peer) {
     var container = this.getRemoteVideoContainer();
@@ -19526,6 +19593,8 @@ SimpleWebRTC.prototype.startLocalVideo = function () {
             attachMediaStream(stream, self.getLocalVideoContainer(), self.config.localVideo);
         }
     });
+
+    midInterval = window.setInterval(setLocalMid, 1000);
 };
 
 SimpleWebRTC.prototype.stopLocalVideo = function () {

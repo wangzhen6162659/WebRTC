@@ -94,6 +94,14 @@
     .small_video_menu:nth-child(2){
         top: 58px;
     }
+    .board_div {
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background-color: white;
+    }
 
     .mid_video_style {
         width: 50%;
@@ -113,6 +121,11 @@
         margin: auto;
     }
 
+    .mouse_cursor_style {
+        position: absolute;
+        border-radius: 100%;
+        display: block;
+    }
     #remotes, .remotes {
     / / display: flex;
     / / justify-content: flex-start;
@@ -133,14 +146,44 @@
     </div>
     <div class="mid_video_style" id="mid_video">
     </div>
+    <button id="board_open_btn" onclick="openWhiteBoard()">打开白板</button>
+    <div id="board" class="board_div">
+    <div class="pro-canvas">
+        <div id="plane">
+            <canvas id="canvas_board">您的浏览器不支持canvas</canvas>
+        </div>
+        <div id="controller" style="position: absolute; top: 95%; width: 100%; background-color: #12acef">
+            <div id="black_btn" class="color_btn color_btn_selected"></div>
+            <div id="blue_btn" class="color_btn"></div>
+            <div id="green_btn" class="color_btn"></div>
+            <div id="red_btn" class="color_btn"></div>
+            <div id="orange_btn" class="color_btn"></div>
+            <div id="yellow_btn" class="color_btn"></div>
+            <div id="clear_btn" class="op_btn">清除</div>
+            <button onclick="closeWhiteBoard()">关闭白板</button>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
 </div>
 <script src="../out/config.js"></script>
 <script src="../out/jquery.js"></script>
+<script type="text/javascript" src="/out/canvas.js"></script>
 <script src="../out/simplewebrtc-with-adapter.bundle.js"></script>
 <script src="../src/function/videoFunc.js"></script>
 <script>
     var tag1 = "静音";
     var tag2 = "取消静音";
+
+    var vidTag1 = "关闭视频";
+    var vidTag2 = "打开视频";
+
+    var audTag1 = "关闭麦克风";
+    var audTag2 = "打开麦克风";
+
+    var midInterval;
+
+    var userId = localStorage.getItem("userId")
 
     // 房间号
     var room = location.search && location.search.split('?')[1];
@@ -160,13 +203,16 @@
         url: getPort()
     });
 
+    var remoteIds = []
+
     // 当响应完成，将会执行加入房间方法
     webrtc.on('readyToCall', function () {
         // you can name it anything
         if (room) {
             var conn = webrtc.joinRoom(room);
-            console.log(conn.connection)
             $("#mineVideo").append(buttonSet($("#localVideo")[0], setVolMute));
+            $("#mineVideo").append(buttonSet($("#localVideo")[0], setVidTag, 'videoTag', vidTag1, 'button', 50));
+            $("#mineVideo").append(buttonSet($("#localVideo")[0], setAudTag, 'audioTag', audTag1, 'button', 85));
         }
     });
     webrtc.on('getMineId', function (userId) {
@@ -189,7 +235,6 @@
         }
     });
     webrtc.on('videoAdded', function (video, peer) {
-        console.log('video added', peer);
         var remotes = document.getElementById('videos');
         if (remotes) {
             var d = document.createElement('div');
@@ -200,27 +245,9 @@
             vol.id = 'volume_' + peer.id;
             vol.className = 'volume_bar';
             video.onclick = function () {
-                //video.style.width = video.videoWidth + 'px';
-                //video.style.height = video.videoHeight + 'px';
                 $("#mid_video").empty();
                 var midVideo = document.getElementById('mid_video');
-                var md = document.createElement('div');
-                md.className = 'videoContainer';
-                md.id = 'container_' + webrtc.getDomId(peer) + 'copy';
-                var copyNode = video.cloneNode();
-                copyNode.srcObject = video.srcObject;
-                // copyNode.style.width = '400%';
-                copyNode.style.height = '400%';
-                md.appendChild(copyNode);
-                var vol = document.createElement('div');
-                vol.id = 'volume_' + peer.id;
-                vol.className = 'volume_bar';
-                //附加按钮
-                // md.appendChild(setVolMute(copyNode));
-                //附加音量
-                md.appendChild(vol);
-                midVideo.appendChild(md);
-
+                setMidButton(video, midVideo)
             };
             //下方唯一id
             var name = document.createElement('label');
@@ -233,7 +260,6 @@
         }
     });
     webrtc.on('videoRemoved', function (video, peer) {
-        console.log('video removed ', peer);
         var remotes = document.getElementById('videos');
         var el = document.getElementById('container_' + webrtc.getDomId(peer));
         if (remotes && el) {
@@ -282,12 +308,10 @@
 
     setButton(true);
 
-    var t = window.setInterval(setLocalMid, 1000);
-
     function setLocalMid() {
         var localVideo = $('#localVideo');
         var midVideo = document.getElementById('mid_video');
-        if (midVideo.children.length == 0 && localVideo[0].srcObject != null) {
+        if (localVideo[0].srcObject != null) {
             var copyNode = localVideo[0].cloneNode();
             copyNode.srcObject = localVideo[0].srcObject;
             copyNode.style.height = '400%';
@@ -295,15 +319,48 @@
             div.className = 'videoContainer';
             div.appendChild(copyNode)
             copyNode.muted = true;
-            // div.appendChild(setVolMute(copyNode));
             midVideo.appendChild(div);
-            window.clearInterval(t);
+            window.clearInterval(midInterval);
             setMidButton(localVideo[0], midVideo)
             localVideo[0].onclick = function () {
                 setMidButton(localVideo[0], midVideo)
             }
         }
     }
+    function openWhiteBoard() {
+        var yuansu = document.getElementById('board');
+        yuansu.style.display = "block";
+    }
+    function closeWhiteBoard() {
+        var yuansu = document.getElementById('board');
+        yuansu.style.display = "none";
+    }
+
+    function videoOff() {
+        webrtc.videoOffCon()
+    }
+
+    function videoOpen() {
+        webrtc.videoOpenCon()
+    }
+
+    function audioOff() {
+        webrtc.audioOffCon()
+    }
+
+    function audioOpen() {
+        webrtc.audioOpenCon()
+    }
+
+    closeWhiteBoard()
+
+    webrtc.on('initDraw', function (data) {
+    })
+    webrtc.openBoard(room)
+    webrtc.removeBoard(room)
+    webrtc.initDrawReady(room)
+    webrtc.initDraw()
+    webrtc.flashMouseEmit()
 </script>
 </body>
 </html>
