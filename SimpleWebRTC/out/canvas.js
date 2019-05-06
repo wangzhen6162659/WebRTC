@@ -15,6 +15,7 @@ var userMouse = []
 var mineId = localStorage.getItem('userId')
 var mineIcon = localStorage.getItem('icon')
 var mouseSize = 25
+var lastPoint = {}
 //设定画布的宽和高
 canvas.width = canvasWidth
 canvas.height = canvasHeight
@@ -31,7 +32,7 @@ var myHeightK = $("#board")[0].clientHeight / standardHeight
 
 //canvas生成光标数据，传值给后台
 function synStartMouse(data) {
-    webrtc.flashMouse(data)
+    // webrtc.flashMouse(data)
 }
 //canvas导出数据流，传值给后台
 function synStartDraw(point) {
@@ -47,7 +48,7 @@ function synEndDraw(uuid) {
 // 清除按钮操作
 $("#clear_btn").click(
     function(e) {
-        context.clearRect(0, 0, canvasWidth, canvasHeight)
+        webrtc.cleanDraw(room)
     }
 )
 // 选择绘画颜色
@@ -74,19 +75,29 @@ function removeUUID(id){
     delete eval(arr)[id]
 }
 
+function canvasClean() {
+    console.log('清空画布')
+    context.clearRect(0, 0, canvasWidth, canvasHeight)
+    arr = {}
+}
+
 // 绘画
 function moveStroke(data){
     //核心代码
     if (!arr[data.uuid]){
         arr[data.uuid] = []
     }
+    debugger
     var tempArr = arr[data.uuid]
     var tempPoint = data.point
     tempPoint.x = tempPoint.x * myWidthK
     tempPoint.y = tempPoint.y * myHeightK
     if (tempArr.length > 0){
+        context.beginPath()
         context.moveTo(tempArr[tempArr.length -1].x,tempArr[tempArr.length -1].y)
         context.lineTo(tempPoint.x, tempPoint.y)
+        lastPoint = {x: tempPoint.x, y: tempPoint.y}
+        context.closePath()
         context.stroke()
     }
     arr[data.uuid].push(tempPoint)
@@ -141,6 +152,9 @@ canvas.onmousemove = function(e){
     synStartMouse(mouse)
     if (isMouseDown) { // 确定鼠标按下
         e.preventDefault()
+        if (lastPoint && lastPoint.x == e.clientX && lastPoint.y == e.clientY){
+            return
+        }
         synStartDraw({x: e.clientX / myWidthK, y: e.clientY / myHeightK})
     }
 }
@@ -167,27 +181,18 @@ canvas.addEventListener('touchend', function(e){
 })
 
 /**
- * 窗口到画布的位置
- */
-function windowToCanvas(x, y) {
-    var box = canvas.getBoundingClientRect()
-    return {x: Math.round(x-box.left), y: Math.round(y-box.top)}
-}
-
-/** 绘制米字格 **/
-function drawGrid() {
-}
-
-/**
  * 初始化房间绘图
  */
 function initDraw(data){
+    console.log('画布初始化')
     Object.keys(data).forEach(function (id) {
         var temp = data[id]
         if (data[id].length>1){
             for(var i=1; i<temp.length; i++){
+                context.beginPath()
                 context.moveTo(temp[i-1].x * myWidthK,temp[i-1].y * myHeightK)
                 context.lineTo(temp[i].x * myWidthK,temp[i].y * myHeightK)
+                context.closePath()
                 context.stroke()
             }
         }

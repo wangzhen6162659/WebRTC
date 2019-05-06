@@ -3,7 +3,7 @@
  * @param video
  * @param midVideo
  */
-function setMidButton(video, midVideo) {
+function setMidButton(video, midVideo, isMine) {
         $("#mid_video").empty();
         var copyNode = video.cloneNode();
         copyNode.srcObject = video.srcObject;
@@ -14,6 +14,7 @@ function setMidButton(video, midVideo) {
         //创建录制按钮
         div.appendChild(copyNode);
         //附加按钮
+        initMuteTag(copyNode, isMine)
         div.appendChild(buttonSet(copyNode, addButton, 'recorderControl', "录制"));
         var bt = buttonSet(copyNode, addButton, 'downloadButton', "下载", "a")
         bt.style.display = 'none'
@@ -44,8 +45,8 @@ function setMidButton(video, midVideo) {
         };
         // 设置视频录制 end
 }
+
 function buttonSet(volEl, func, id, text, tag = "button", y){
-    volEl.muted = true;
     var bt = document.createElement(tag)
     bt.className = 'small_video_menu'
     return func(volEl, bt, id, text, y)
@@ -100,6 +101,12 @@ function setVolMute(volEl, bt) {
     }
     return bt
 }
+
+//静音初始化
+function initMuteTag(volEl, tag = false){
+    volEl.muted = tag
+}
+
 //静音设置状态变更
 function setVolMuteTag(btEl, volEl) {
     if (volEl.muted) {

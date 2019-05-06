@@ -18887,6 +18887,7 @@ function Peer(options) {
 
     this.pc.on('addStream', this.handleRemoteStreamAdded.bind(this));
     this.pc.on('addChannel', this.handleDataChannelAdded.bind(this));
+    // debugger
     this.pc.on('removeStream', this.handleStreamRemoved.bind(this));
     // Just fire negotiation needed events for now
     // When browser re-negotiation handling seems to work
@@ -19492,7 +19493,12 @@ SimpleWebRTC.prototype.flashMouseEmit = function () {
         flashMouseData(data)
     })
 };
-
+/*通知前端清空路径*/
+SimpleWebRTC.prototype.cleanDrawEmit = function () {
+    this.connection.on('cleanDrawEmit', function () {
+      canvasClean()
+    })
+};
 /*开始同步鼠标路径*/
 SimpleWebRTC.prototype.flashMouse = function (data) {
     this.connection.emit('flashMouse', data)
@@ -19512,6 +19518,11 @@ SimpleWebRTC.prototype.endFlash = function (data) {
 SimpleWebRTC.prototype.initDrawReady = function (room) {
     this.connection.emit('initDrawReady', room)
 }
+
+/*清空绘图*/
+SimpleWebRTC.prototype.cleanDraw = function (room) {
+    this.connection.emit('cleanDraw', room)
+};
 
 SimpleWebRTC.prototype.handlePeerStreamRemoved = function (peer) {
     var container = this.getRemoteVideoContainer();

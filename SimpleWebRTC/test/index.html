@@ -159,7 +159,7 @@
             <div id="red_btn" class="color_btn"></div>
             <div id="orange_btn" class="color_btn"></div>
             <div id="yellow_btn" class="color_btn"></div>
-            <div id="clear_btn" class="op_btn">清除</div>
+            <button id="clear_btn" class="op_btn">清除</button>
             <button onclick="closeWhiteBoard()">关闭白板</button>
             <div class="clearfix"></div>
         </div>
@@ -168,10 +168,12 @@
 </div>
 <script src="../out/config.js"></script>
 <script src="../out/jquery.js"></script>
-<script type="text/javascript" src="/out/canvas.js"></script>
+<script type="text/javascript" src="../out/canvas.js"></script>
 <script src="../out/simplewebrtc-with-adapter.bundle.js"></script>
 <script src="../src/function/videoFunc.js"></script>
 <script>
+    var webrtc
+
     var tag1 = "静音";
     var tag2 = "取消静音";
 
@@ -181,43 +183,32 @@
     var audTag1 = "关闭麦克风";
     var audTag2 = "打开麦克风";
 
+    var loginTag = false;
+
     var midInterval;
 
     var userId = localStorage.getItem("userId")
 
+    var room
     // 房间号
-    var room = location.search && location.search.split('?')[1];
-
-    // 创建房间
-    var webrtc = new SimpleWebRTC({
-        // 本地媒体元素
-        localVideoEl: 'localVideo',
-        // 远程媒体元素
-        remoteVideosEl: '',
-        // 请求摄像头
-        autoRequestMedia: true,
-        debug: false,
-        detectSpeakingEvents: true,
-        // 这里代表的是LocalStorage的某个key，用于显示用户名
-        userId: 'userId',
-        url: getPort()
-    });
-
-    var remoteIds = []
-
-    // 当响应完成，将会执行加入房间方法
-    webrtc.on('readyToCall', function () {
-        // you can name it anything
-        if (room) {
-            var conn = webrtc.joinRoom(room);
-            $("#mineVideo").append(buttonSet($("#localVideo")[0], setVolMute));
-            $("#mineVideo").append(buttonSet($("#localVideo")[0], setVidTag, 'videoTag', vidTag1, 'button', 50));
-            $("#mineVideo").append(buttonSet($("#localVideo")[0], setAudTag, 'audioTag', audTag1, 'button', 85));
+    try {
+        room = location.search && location.search.split('?')[1].split('&')[0];
+        var token = location.search && location.search.split('?')[1].split('&')[1];
+        var begin=token.indexOf('token=');
+        var last=token.length;
+        token = token.substring(begin + 6,last)
+        // 返回参数ID表示用户唯一识别,photo代表头像
+    } catch {
+        if (version == '1.0.0') {
+            loginTag = true
+            startVideo()
+        } else {
+            alert("请登录")
+            window.location.href = loginUrl
+            console.log("请登录")
         }
-    });
-    webrtc.on('getMineId', function (userId) {
-        $('#name').text(userId);
-    })
+    }
+
     function showVolume(el, volume) {
         if (!el) return;
         if (volume < -45) { // -45 ~ -20
@@ -228,86 +219,13 @@
             el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
         }
     }
-
-    webrtc.on('channelMessage', function (peer, label, data) {
-        if (data.type == 'volume') {
-            showVolume(document.getElementById('volume_' + peer.id), data.volume);
-        }
-    });
-    webrtc.on('videoAdded', function (video, peer) {
-        var remotes = document.getElementById('videos');
-        if (remotes) {
-            var d = document.createElement('div');
-            d.className = 'videoContainer';
-            d.id = 'container_' + webrtc.getDomId(peer);
-            d.appendChild(video);
-            var vol = document.createElement('div');
-            vol.id = 'volume_' + peer.id;
-            vol.className = 'volume_bar';
-            video.onclick = function () {
-                $("#mid_video").empty();
-                var midVideo = document.getElementById('mid_video');
-                setMidButton(video, midVideo)
-            };
-            //下方唯一id
-            var name = document.createElement('label');
-            name.className = 'user_name';
-            name.innerHTML = peer.userId;
-            d.appendChild(vol);
-            d.appendChild(name);
-            d.appendChild(buttonSet(video, setVolMute));
-            remotes.appendChild(d);
-        }
-    });
-    webrtc.on('videoRemoved', function (video, peer) {
-        var remotes = document.getElementById('videos');
-        var el = document.getElementById('container_' + webrtc.getDomId(peer));
-        if (remotes && el) {
-            remotes.removeChild(el);
-        }
-    });
-    webrtc.on('volumeChange', function (volume, treshold) {
-        showVolume(document.getElementById('localVolume'), volume);
-    });
-
     // 相关标题信息
     function setRoom(name) {
         $('form').remove();
         $('h1').text('远程交流系统 - 房间' + name);
-        $('#subTitle').text('分享链接给其他人: ' + location.href);
+        // $('#subTitle').text('分享链接给其他人: ' + location.href);
         $('body').addClass('active');
     }
-
-    if (room) {
-        setRoom(room);
-    } else {
-        $('form').submit(function () {
-            var val = $('#sessionInput').val().toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z0-9_\-]/g, '');
-            webrtc.createRoom(val, function (err, name) {
-                console.log(' create room cb', arguments);
-
-                var newUrl = location.pathname + '?' + name;
-                if (!err) {
-                    history.replaceState({foo: 'bar'}, null, newUrl);
-                    setRoom(name);
-                } else {
-                    console.log(err);
-                }
-            });
-            return false;
-        });
-    }
-
-    var button = $('#screenShareButton'),
-        setButton = function (bool) {
-            button.text(bool ? 'share screen' : 'stop sharing');
-        };
-    webrtc.on('localScreenStopped', function () {
-        setButton(true);
-    });
-
-    setButton(true);
-
     function setLocalMid() {
         var localVideo = $('#localVideo');
         var midVideo = document.getElementById('mid_video');
@@ -318,14 +236,14 @@
             var div = document.createElement('div');
             div.className = 'videoContainer';
             div.appendChild(copyNode)
-            copyNode.muted = true;
             midVideo.appendChild(div);
             window.clearInterval(midInterval);
-            setMidButton(localVideo[0], midVideo)
+            setMidButton(copyNode, midVideo, true)
             localVideo[0].onclick = function () {
-                setMidButton(localVideo[0], midVideo)
+                setMidButton(localVideo[0], midVideo, true)
             }
         }
+        console.log(midVideo)
     }
     function openWhiteBoard() {
         var yuansu = document.getElementById('board');
@@ -353,14 +271,120 @@
     }
 
     closeWhiteBoard()
+    function startVideo() {
+        if (loginTag) {
 
-    webrtc.on('initDraw', function (data) {
-    })
-    webrtc.openBoard(room)
-    webrtc.removeBoard(room)
-    webrtc.initDrawReady(room)
-    webrtc.initDraw()
-    webrtc.flashMouseEmit()
+            // 创建房间
+                webrtc = new SimpleWebRTC({
+                // 本地媒体元素
+                localVideoEl: 'localVideo',
+                // 远程媒体元素
+                remoteVideosEl: '',
+                // 请求摄像头
+                autoRequestMedia: true,
+                debug: false,
+                detectSpeakingEvents: true,
+                // 这里代表的是LocalStorage的某个key，用于显示用户名
+                userId: 'userId',
+                url: getPort()
+            });
+            // 当响应完成，将会执行加入房间方法
+            webrtc.on('readyToCall', function () {
+                // you can name it anything
+                if (room) {
+                    var conn = webrtc.joinRoom(room);
+                    $("#localVideo")[0].muted = true
+                    $("#mineVideo").append(buttonSet($("#localVideo")[0], setVolMute));
+                    $("#mineVideo").append(buttonSet($("#localVideo")[0], setVidTag, 'videoTag', vidTag1, 'button', 50));
+                    $("#mineVideo").append(buttonSet($("#localVideo")[0], setAudTag, 'audioTag', audTag1, 'button', 85));
+                }
+            });
+            webrtc.on('getMineId', function (userId) {
+                $('#name').text(userId);
+            })
+
+            webrtc.on('channelMessage', function (peer, label, data) {
+                if (data.type == 'volume') {
+                    showVolume(document.getElementById('volume_' + peer.id), data.volume);
+                }
+            });
+            webrtc.on('videoAdded', function (video, peer) {
+                var remotes = document.getElementById('videos');
+                if (remotes) {
+                    var d = document.createElement('div');
+                    d.className = 'videoContainer';
+                    d.id = 'container_' + webrtc.getDomId(peer);
+                    d.appendChild(video);
+                    var vol = document.createElement('div');
+                    vol.id = 'volume_' + peer.id;
+                    vol.className = 'volume_bar';
+                    video.onclick = function () {
+                        $("#mid_video").empty();
+                        var midVideo = document.getElementById('mid_video');
+                        setMidButton(video, midVideo)
+                    };
+                    //下方唯一id
+                    var name = document.createElement('label');
+                    name.className = 'user_name';
+                    name.innerHTML = peer.userId;
+                    d.appendChild(vol);
+                    d.appendChild(name);
+                    d.appendChild(buttonSet(video, setVolMute));
+                    remotes.appendChild(d);
+                }
+            });
+            webrtc.on('videoRemoved', function (video, peer) {
+                var remotes = document.getElementById('videos');
+                var el = document.getElementById('container_' + webrtc.getDomId(peer));
+                if (remotes && el) {
+                    remotes.removeChild(el);
+                }
+            });
+            webrtc.on('volumeChange', function (volume, treshold) {
+                showVolume(document.getElementById('localVolume'), volume);
+            });
+
+
+            if (room) {
+                setRoom(room);
+            } else {
+                $('form').submit(function () {
+                    var val = $('#sessionInput').val().toLowerCase().replace(/\s/g, '-').replace(/[^A-Za-z0-9_\-]/g, '');
+                    webrtc.createRoom(val, function (err, name) {
+                        console.log(' create room cb', arguments);
+
+                        var newUrl = location.pathname + '?' + name;
+                        if (!err) {
+                            history.replaceState({foo: 'bar'}, null, newUrl);
+                            setRoom(name);
+                        } else {
+                            console.log(err);
+                        }
+                    });
+                    return false;
+                });
+            }
+
+            var button = $('#screenShareButton'),
+                setButton = function (bool) {
+                    button.text(bool ? 'share screen' : 'stop sharing');
+                };
+            webrtc.on('localScreenStopped', function () {
+                setButton(true);
+            });
+
+            setButton(true);
+
+            webrtc.on('initDraw', function (data) {
+            })
+            webrtc.openBoard(room)
+            webrtc.removeBoard(room)
+            webrtc.initDrawReady(room)
+            webrtc.initDraw()
+            webrtc.flashMouseEmit()
+            webrtc.cleanDrawEmit()
+        }
+    }
 </script>
 </body>
 </html>
