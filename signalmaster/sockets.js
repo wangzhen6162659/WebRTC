@@ -21,16 +21,20 @@ module.exports = function (server, config) {
                 drawArr[data.room][data.uuid].push(data.point)
                 io.sockets.emit('drawCanvas', data)
             }
+
+            console.log('startConnect')
         })
 
         // 清除绘制id
         client.on('flashMouse', function(data) {
             io.sockets.emit('flashMouseEmit', data)
+            console.log('flashMouse',drawArr)
         })
 
         // 清除绘制id
         client.on('overDraw', function(data) {
             io.sockets.emit('drawEnd', data)
+            console.log('overDraw')
         })
 
         // 初始化绘图画面
@@ -38,6 +42,17 @@ module.exports = function (server, config) {
             if (drawArr[room]){
                 io.sockets.emit('initDraw', drawArr[room])
             }
+            console.log('initDrawReady')
+        })
+
+        // 清空绘图
+        client.on('cleanDraw', function(room) {
+            console.log('cleanDraw-START', drawArr)
+            if (drawArr[room]){
+                delete eval(drawArr)[room]
+                io.sockets.emit('cleanDrawEmit')
+            }
+            console.log('cleanDraw-END', drawArr)
         })
         client.resources = {
             screen: false,
@@ -55,6 +70,7 @@ module.exports = function (server, config) {
             details.from = client.id;
             details.config = client.config;
             otherClient.emit('message', details);
+            console.log('message')
         });
 
         client.on('shareScreen', function () {
@@ -99,6 +115,7 @@ module.exports = function (server, config) {
                 userId: userId
             };
             safeCb(cb)(null, getClientBySid(sid));
+            console.log('getMine')
         });
 
         client.on('disconnect', function () {
