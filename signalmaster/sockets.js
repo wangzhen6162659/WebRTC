@@ -110,9 +110,10 @@ module.exports = function (server, config) {
             client.room = name;
         }
 
-        client.on('getMine', function (sid,userId,cb) {
+        client.on('getMine', function (sid,user,cb) {
             client.config = {
-                userId: userId
+                userId: user.userId,
+                userName: user.userName,
             };
             safeCb(cb)(null, getClientBySid(sid));
             console.log('getMine')

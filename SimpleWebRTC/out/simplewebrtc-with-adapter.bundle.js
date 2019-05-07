@@ -18852,6 +18852,7 @@ function isAllTracksEnded(stream) {
     return isAllTracksEnded;
 }
 
+/*客户端带参需要在此设置*/
 function Peer(options) {
     var self = this;
 
@@ -18860,6 +18861,7 @@ function Peer(options) {
 
     this.id = options.id;
     this.userId = options.userId;
+    this.userName = options.userName;
     this.parent = options.parent;
     this.type = options.type || 'video';
     this.oneway = options.oneway || false;
@@ -19238,6 +19240,7 @@ function SimpleWebRTC(opts) {
                     id: message.from,
                     sid: message.sid,
                     userId: message.config.userId,
+                    userName: message.config.userName,
                     type: message.roomType,
                     enableDataChannels: self.config.enableDataChannels && message.roomType !== 'screen',
                     sharemyscreen: message.roomType === 'screen' && !message.broadcaster,
@@ -19549,8 +19552,9 @@ SimpleWebRTC.prototype.joinRoom = function (name, cb) {
     var self = this;
     this.roomName = name;
     var userId = localStorage.getItem(this.config.userId);
-    this.connection.emit('getMine', this.connection.connection.id, userId, function(err,clientMe){
-        self.emit('getMineId',clientMe.config.userId);
+    var userName = localStorage.getItem(this.config.userName);
+    this.connection.emit('getMine', this.connection.connection.id, {userId: userId, userName: userName}, function(err,clientMe){
+        self.emit('getMineId', {userId: clientMe.config.userId, userName: clientMe.config.userName});
     });
     this.connection.emit('join', name, function (err, roomDescription) {
         console.log('join CB', err, roomDescription);
@@ -19569,6 +19573,7 @@ SimpleWebRTC.prototype.joinRoom = function (name, cb) {
                             id: id,
                             type: type,
                             userId: client.config.userId,
+                            userName: client.config.userName,
                             enableDataChannels: self.config.enableDataChannels && type !== 'screen',
                             receiveMedia: {
                                 offerToReceiveAudio: type !== 'screen' && self.config.receiveMedia.offerToReceiveAudio ? 1 : 0,

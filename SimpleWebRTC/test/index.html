@@ -88,12 +88,15 @@
         background-color: cornflowerblue;
         border-radius: 20px;
     }
-    .small_video_menu:nth-child(1){
+
+    .small_video_menu:nth-child(1) {
         top: 15px;
     }
-    .small_video_menu:nth-child(2){
+
+    .small_video_menu:nth-child(2) {
         top: 58px;
     }
+
     .board_div {
         position: fixed;
         top: 0px;
@@ -126,6 +129,7 @@
         border-radius: 100%;
         display: block;
     }
+
     #remotes, .remotes {
     / / display: flex;
     / / justify-content: flex-start;
@@ -148,22 +152,22 @@
     </div>
     <button id="board_open_btn" onclick="openWhiteBoard()">打开白板</button>
     <div id="board" class="board_div">
-    <div class="pro-canvas">
-        <div id="plane">
-            <canvas id="canvas_board">您的浏览器不支持canvas</canvas>
+        <div class="pro-canvas">
+            <div id="plane">
+                <canvas id="canvas_board">您的浏览器不支持canvas</canvas>
+            </div>
+            <div id="controller" style="position: absolute; top: 95%; width: 100%; background-color: #12acef">
+                <div id="black_btn" class="color_btn color_btn_selected"></div>
+                <div id="blue_btn" class="color_btn"></div>
+                <div id="green_btn" class="color_btn"></div>
+                <div id="red_btn" class="color_btn"></div>
+                <div id="orange_btn" class="color_btn"></div>
+                <div id="yellow_btn" class="color_btn"></div>
+                <button id="clear_btn" class="op_btn">清除</button>
+                <button onclick="closeWhiteBoard()">关闭白板</button>
+                <div class="clearfix"></div>
+            </div>
         </div>
-        <div id="controller" style="position: absolute; top: 95%; width: 100%; background-color: #12acef">
-            <div id="black_btn" class="color_btn color_btn_selected"></div>
-            <div id="blue_btn" class="color_btn"></div>
-            <div id="green_btn" class="color_btn"></div>
-            <div id="red_btn" class="color_btn"></div>
-            <div id="orange_btn" class="color_btn"></div>
-            <div id="yellow_btn" class="color_btn"></div>
-            <button id="clear_btn" class="op_btn">清除</button>
-            <button onclick="closeWhiteBoard()">关闭白板</button>
-            <div class="clearfix"></div>
-        </div>
-    </div>
     </div>
 </div>
 <script src="../out/config.js"></script>
@@ -189,23 +193,47 @@
 
     var userId = localStorage.getItem("userId")
 
+    var userName;
+
     var room
     // 房间号
     try {
         room = location.search && location.search.split('?')[1].split('&')[0];
-        var token = location.search && location.search.split('?')[1].split('&')[1];
-        var begin=token.indexOf('token=');
-        var last=token.length;
-        token = token.substring(begin + 6,last)
+        if (room) {
+            var token = location.search && location.search.split('?')[1].split('&')[1];
+            var begin = token.indexOf('token=');
+            var last = token.length;
+            token = token.substring(begin + 6, last)
+            $.ajax({
+                type: "GET", //提交方式
+                url: getUserApi(),//路径
+                headers: {token: token},
+                success: function (res) {//返回数据根据结果进行相应的处理
+                    if (res.errcode === 0) {
+                        localStorage.setItem('userId', res.data.id)
+                        localStorage.setItem('icon', res.data.photo)
+                        localStorage.setItem('userName', res.data.name)
+                        loginTag = true
+                        startVideo()
+                    } else {
+                        alert(res.errmsg)
+                    }
+                }
+            });
+        } else {
+            alert("请选择正确的房间！")
+        }
         // 返回参数ID表示用户唯一识别,photo代表头像
     } catch {
         if (version == '1.0.0') {
             loginTag = true
             startVideo()
         } else {
-            alert("请登录")
-            window.location.href = loginUrl
-            console.log("请登录")
+            alert("请先登录！")
+            var param = encodeURIComponent(location.href.split('&')[0])
+            console.log(param)
+            window.location.href = loginUrl + '/' + param
+            console.log("请先登录！")
         }
     }
 
@@ -219,6 +247,7 @@
             el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
         }
     }
+
     // 相关标题信息
     function setRoom(name) {
         $('form').remove();
@@ -226,6 +255,7 @@
         // $('#subTitle').text('分享链接给其他人: ' + location.href);
         $('body').addClass('active');
     }
+
     function setLocalMid() {
         var localVideo = $('#localVideo');
         var midVideo = document.getElementById('mid_video');
@@ -245,10 +275,12 @@
         }
         console.log(midVideo)
     }
+
     function openWhiteBoard() {
         var yuansu = document.getElementById('board');
         yuansu.style.display = "block";
     }
+
     function closeWhiteBoard() {
         var yuansu = document.getElementById('board');
         yuansu.style.display = "none";
@@ -271,11 +303,12 @@
     }
 
     closeWhiteBoard()
+
     function startVideo() {
         if (loginTag) {
 
             // 创建房间
-                webrtc = new SimpleWebRTC({
+            webrtc = new SimpleWebRTC({
                 // 本地媒体元素
                 localVideoEl: 'localVideo',
                 // 远程媒体元素
@@ -286,6 +319,7 @@
                 detectSpeakingEvents: true,
                 // 这里代表的是LocalStorage的某个key，用于显示用户名
                 userId: 'userId',
+                userName: 'userName',
                 url: getPort()
             });
             // 当响应完成，将会执行加入房间方法
@@ -299,8 +333,8 @@
                     $("#mineVideo").append(buttonSet($("#localVideo")[0], setAudTag, 'audioTag', audTag1, 'button', 85));
                 }
             });
-            webrtc.on('getMineId', function (userId) {
-                $('#name').text(userId);
+            webrtc.on('getMineId', function (user) {
+                $('#name').text(user.userName);
             })
 
             webrtc.on('channelMessage', function (peer, label, data) {
@@ -326,7 +360,7 @@
                     //下方唯一id
                     var name = document.createElement('label');
                     name.className = 'user_name';
-                    name.innerHTML = peer.userId;
+                    name.innerHTML = peer.userName;
                     d.appendChild(vol);
                     d.appendChild(name);
                     d.appendChild(buttonSet(video, setVolMute));
