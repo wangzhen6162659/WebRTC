@@ -1,0 +1,121 @@
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+sh: line 1: 19618 Terminated              stupid-server -s -h 0.0.0.0
+npm ERR! code ELIFECYCLE
+npm ERR! errno 143
+npm ERR! simplewebrtc@3.0.2 test-page: `echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the simplewebrtc@3.0.2 test-page script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /root/.npm/_logs/2018-11-28T08_52_29_992Z-debug.log
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+sh: line 1:   439 Terminated              stupid-server -s -h 0.0.0.0
+npm ERR! code ELIFECYCLE
+npm ERR! errno 143
+npm ERR! simplewebrtc@3.0.2 test-page: `echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the simplewebrtc@3.0.2 test-page script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /root/.npm/_logs/2018-11-29T07_55_57_411Z-debug.log
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8080...
+sh: line 1: 29891 Terminated              stupid-server -h 0.0.0.0
+npm ERR! code ELIFECYCLE
+npm ERR! errno 143
+npm ERR! simplewebrtc@3.0.2 test-page: `echo "open https://0.0.0.0:8443/test/" && stupid-server -h 0.0.0.0`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the simplewebrtc@3.0.2 test-page script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /root/.npm/_logs/2018-11-29T07_59_29_102Z-debug.log
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8080...
+sh: line 1: 30299 Killed                  stupid-server -h 0.0.0.0
+npm ERR! code ELIFECYCLE
+npm ERR! errno 137
+npm ERR! simplewebrtc@3.0.2 test-page: `echo "open https://0.0.0.0:8443/test/" && stupid-server -h 0.0.0.0`
+npm ERR! Exit status 137
+npm ERR! 
+npm ERR! Failed at the simplewebrtc@3.0.2 test-page script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /root/.npm/_logs/2018-11-29T08_33_34_295Z-debug.log
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8080...
+sh: line 1: 30617 Terminated              stupid-server -h 0.0.0.0
+npm ERR! code ELIFECYCLE
+npm ERR! errno 143
+npm ERR! simplewebrtc@3.0.2 test-page: `echo "open https://0.0.0.0:8443/test/" && stupid-server -h 0.0.0.0`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the simplewebrtc@3.0.2 test-page script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /root/.npm/_logs/2018-11-30T08_36_02_286Z-debug.log
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...
+
+> simplewebrtc@3.0.2 test-page /ompf/coturn-server/SimpleWebRTC
+> echo "open https://0.0.0.0:8443/test/" && stupid-server -s -h 0.0.0.0
+
+open https://0.0.0.0:8443/test/
+Listening on 0.0.0.0:8443...

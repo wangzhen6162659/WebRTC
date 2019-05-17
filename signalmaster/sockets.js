@@ -70,7 +70,7 @@ module.exports = function (server, config) {
             details.from = client.id;
             details.config = client.config;
             otherClient.emit('message', details);
-            console.log('message')
+            // console.log('message')
         });
 
         client.on('shareScreen', function () {
@@ -112,7 +112,7 @@ module.exports = function (server, config) {
 
         client.on('getMine', function (sid,user,cb) {
             client.config = {
-                userId: user.userId,
+                userPhone: user.userPhone,
                 userName: user.userName,
             };
             safeCb(cb)(null, getClientBySid(sid));
@@ -174,6 +174,7 @@ module.exports = function (server, config) {
             clients: {}
         };
 
+        console.log(adapter.rooms)
         if(clients.length>0) {
             var a = clients.sockets;
             Object.keys(a).forEach(function (id) {

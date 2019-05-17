@@ -18860,7 +18860,7 @@ function Peer(options) {
     WildEmitter.call(this);
 
     this.id = options.id;
-    this.userPhone = options.userPhone;
+    this.userId = options.userId;
     this.userName = options.userName;
     this.parent = options.parent;
     this.type = options.type || 'video';
@@ -19239,8 +19239,8 @@ function SimpleWebRTC(opts) {
                 peer = self.webrtc.createPeer({
                     id: message.from,
                     sid: message.sid,
+                    userId: message.config.userId,
                     userName: message.config.userName,
-                    userPhone: message.config.userPhone,
                     type: message.roomType,
                     enableDataChannels: self.config.enableDataChannels && message.roomType !== 'screen',
                     sharemyscreen: message.roomType === 'screen' && !message.broadcaster,
@@ -19551,10 +19551,10 @@ SimpleWebRTC.prototype.setVolumeForAll = function (volume) {
 SimpleWebRTC.prototype.joinRoom = function (name, cb) {
     var self = this;
     this.roomName = name;
-    var userName = self.config.userName;
-    var userPhone = self.config.userPhone;
-    this.connection.emit('getMine', this.connection.connection.id, {userPhone: userPhone, userName: userName}, function(err,clientMe){
-        self.emit('getMineId', {userPhone: clientMe.config.userPhone, userName: clientMe.config.userName});
+    var userId = localStorage.getItem(this.config.userId);
+    var userName = localStorage.getItem(this.config.userName);
+    this.connection.emit('getMine', this.connection.connection.id, {userId: userId, userName: userName}, function(err,clientMe){
+        self.emit('getMineId', {userId: clientMe.config.userId, userName: clientMe.config.userName});
     });
     this.connection.emit('join', name, function (err, roomDescription) {
         console.log('join CB', err, roomDescription);
@@ -19572,7 +19572,7 @@ SimpleWebRTC.prototype.joinRoom = function (name, cb) {
                         peer = self.webrtc.createPeer({
                             id: id,
                             type: type,
-                            userPhone: client.config.userPhone,
+                            userId: client.config.userId,
                             userName: client.config.userName,
                             enableDataChannels: self.config.enableDataChannels && type !== 'screen',
                             receiveMedia: {

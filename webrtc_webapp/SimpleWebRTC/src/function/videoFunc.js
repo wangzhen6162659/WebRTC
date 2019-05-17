@@ -26,7 +26,7 @@ function setMidButton(video, midVideo, isMine) {
         var recorder = new MediaRecorder(copyNode.srcObject);
         var recorderControl=document.getElementById("recorderControl");
         recorderControl.onclick=function(){
-            // this.textContent=="录制"? copyNode.play():copyNode.pause();
+            this.textContent=="录制"? copyNode.play():copyNode.pause();
             this.textContent=="录制"?recorder.start():recorder.stop();
             this.textContent=this.textContent=="录制"?"停止":"录制";
         };
@@ -41,7 +41,6 @@ function setMidButton(video, midVideo, isMine) {
             downloadButton.href = url;
             downloadButton.download="录制视频.mp4";
             downloadButton.click();
-            console.log(url)
             buffers=null;
         };
         // 设置视频录制 end

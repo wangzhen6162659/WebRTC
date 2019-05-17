@@ -191,20 +191,35 @@
 
     var midInterval;
 
-    var userPhone
+    var userId = localStorage.getItem("userId")
 
     var userName;
 
     var room
     // 房间号
     try {
-        var dataArr = location.search && location.search.split('?')[1].split('&')
-        room = dataArr[0];
+        room = location.search && location.search.split('?')[1].split('&')[0];
         if (room) {
-            userName = dataArr[1];
-            userPhone = dataArr[2];
-            loginTag = true
-            startVideo()
+            var token = location.search && location.search.split('?')[1].split('&')[1];
+            var begin = token.indexOf('token=');
+            var last = token.length;
+            token = token.substring(begin + 6, last)
+            $.ajax({
+                type: "GET", //提交方式
+                url: getUserApi(),//路径
+                headers: {token: token},
+                success: function (res) {//返回数据根据结果进行相应的处理
+                    if (res.errcode === 0) {
+                        localStorage.setItem('userId', res.data.id)
+                        localStorage.setItem('icon', res.data.photo)
+                        localStorage.setItem('userName', res.data.name)
+                        loginTag = true
+                        startVideo()
+                    } else {
+                        alert(res.errmsg)
+                    }
+                }
+            });
         } else {
             alert("请选择正确的房间！")
         }
@@ -216,7 +231,6 @@
         } else {
             alert("请先登录！")
             var param = encodeURIComponent(location.href.split('&')[0])
-            console.log(param)
             window.location.href = loginUrl + '/' + param
             console.log("请先登录！")
         }
@@ -303,8 +317,8 @@
                 debug: false,
                 detectSpeakingEvents: true,
                 // 这里代表的是LocalStorage的某个key，用于显示用户名
-                userName: userName,
-                userPhone: userPhone,
+                userId: 'userId',
+                userName: 'userName',
                 url: getPort()
             });
             // 当响应完成，将会执行加入房间方法
@@ -320,7 +334,6 @@
             });
             webrtc.on('getMineId', function (user) {
                 $('#name').text(user.userName);
-                $('#name').attr("title",user.userPhone);
             })
 
             webrtc.on('channelMessage', function (peer, label, data) {
@@ -347,7 +360,6 @@
                     var name = document.createElement('label');
                     name.className = 'user_name';
                     name.innerHTML = peer.userName;
-                    name.title = peer.userPhone;
                     d.appendChild(vol);
                     d.appendChild(name);
                     d.appendChild(buttonSet(video, setVolMute));
